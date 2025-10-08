@@ -19,13 +19,10 @@ function App() {
     <div className="app">
       <Header toggleForm={toggleForm} isFormOpen={isFormOpen} />
       <Routes>
-        <Route exact path="/osteo" element={<About />} />
-        <Route path="/osteo/certificates" element={<Experience />} />
-        <Route path="/osteo/contacts" element={<Contacts />} />
-        <Route
-          path="/osteo/prices"
-          element={<Prices toggleForm={toggleForm} />}
-        />
+        <Route index element={<About />} />
+        <Route path="certificates" element={<Experience />} />
+        <Route path="contacts" element={<Contacts />} />
+        <Route path="prices" element={<Prices toggleForm={toggleForm} />} />
       </Routes>
       <Footer />
     </div>

@@ -19,7 +19,7 @@ function NavBar() {
       >
         <Container id="navbar" fluid className="d-flex justify-content-between align-items-center w-100">
           <Navbar.Brand>
-            <NavLink to="/osteo" end>
+            <NavLink to="/" end>
               <img
                 src={logo}
                 width="70"
@@ -40,7 +40,7 @@ function NavBar() {
             <Nav className="me-auto">
               <Nav.Link as="div">
                 <NavLink
-                  to="/osteo"
+                  to="/"
                   end
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
@@ -49,7 +49,7 @@ function NavBar() {
               </Nav.Link>
               <Nav.Link as="div">
                 <NavLink
-                  to="/osteo/certificates"
+                  to="/certificates"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   Опыт
@@ -57,7 +57,7 @@ function NavBar() {
               </Nav.Link>
               <Nav.Link as="div">
                 <NavLink
-                  to="/osteo/contacts"
+                  to="/contacts"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   Контакты
@@ -65,7 +65,7 @@ function NavBar() {
               </Nav.Link>
               <Nav.Link as="div">
                 <NavLink
-                  to="/osteo/prices"
+                  to="/prices"
                   className={({ isActive }) => (isActive ? "active-link" : "")}
                 >
                   Цены и отзывы
