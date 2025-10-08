@@ -1,0 +1,69 @@
+.experience-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(202, 231, 238, 1) 100%
+  );
+}
+
+.experience {
+  width: 100%;
+  background-image: linear-gradient(
+      to left,
+      transparent,
+      rgba(255, 255, 255, 1)
+    ),
+    url(../../images/orth.jpg);
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right top;
+}
+
+.expierence-header {
+  justify-self: flex-start;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.expierence-list-icon {
+  font-weight: 750;
+  color: #31babe;
+  min-width: 160px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  text-align: start;
+}
+.li-item {
+  display: flex;
+  align-items: center;
+  position: relative; /* Важно для позиционирования псевдоэлемента */
+  margin-bottom: 10px;
+  border-bottom: none; /* Убираем стандартную границу */
+}
+
+.li-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #31babe 0%, rgba(49, 186, 190, 0) 100%);
+}
+
+.expierence-list-text {
+  text-align: left;
+  hyphens: auto;
+  -webkit-hyphens: auto; /* Для Safari */
+  -ms-hyphens: auto; /* Для IE10+ */
+
+  overflow-wrap: break-word;
+}

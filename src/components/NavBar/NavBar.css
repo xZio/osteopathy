@@ -1,0 +1,175 @@
+.logo {
+  width: 130px;
+  height: 130px;
+  margin-left: 20px;
+}
+
+.navbar {
+  background-color: #133848;
+  flex-grow: 1;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.colapsed-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Основные стили для всех ссылок */
+#navbar a {
+  color: #31babe;
+  text-decoration: none;
+  position: relative;
+  padding: 10px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  font-size: 20px;
+}
+
+/* Стили для подчеркивания */
+#navbar a::before {
+  content: "";
+  background: #31babe;
+  height: 1px;
+  position: absolute;
+  bottom: 7px;
+  left: -20px;
+  right: 100%;
+  transition: all 0.3s linear;
+  opacity: 0;
+}
+
+/* Состояние при ховере и фокусе */
+#navbar a:hover::before,
+#navbar a:focus::before {
+  right: 7px;
+  left: 8px;
+  opacity: 1;
+}
+
+/* Активная ссылка - всегда показывает подчеркивание */
+#navbar a.active-link {
+  font-weight: 650;
+}
+
+#navbar a.active-link::before {
+  right: 7px;
+  left: 8px;
+  opacity: 1;
+}
+
+/* Отключаем подчеркивание для логотипа */
+.navbar-brand a::before {
+  display: none !important;
+}
+
+/* Отключаем ховер-эффекты для логотипа */
+.navbar-brand a:hover::before,
+.navbar-brand a:focus::before {
+  display: none !important;
+}
+
+.navbar-brand a {
+  border: none !important;
+}
+
+/* Стили для кнопки бургер-меню */
+.navbar-toggler {
+  padding: 10px 20px;
+  border: 1px solid #31babe;
+  transition: border 0.2s ease;
+  margin-left: auto;
+}
+
+/* .navbar-toggler:hover {
+  border: 3px solid #31babe;
+} */
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler.menu-open {
+  border: 3px solid #31babe !important;
+}
+
+.button-icon {
+  color: #31babe;
+}
+
+/* Стили для выпадающего меню */
+.navbar-nav {
+  align-items: flex-start;
+  padding-left: 20px;
+}
+
+/* Добавьте эти стили */
+.navbar-collapse.collapsing {
+  height: auto;
+  transition: none !important;
+}
+
+.navbar-collapse.show {
+  height: auto;
+  transition: height 0.4s ease !important;
+}
+
+/* Медиа-запросы для мобильных устройств */
+
+@media (max-width: 1150px) {
+  #navbar {
+    padding: 0;
+    margin: 0;
+  }
+
+  .navbar {
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar-nav {
+    align-items: center;
+  }
+
+  .navbar-toggler {
+    margin: 0 30px;
+  }
+
+  /* Корректировка подчеркивания для мобильных */
+  /*   #navbar a::before {
+    bottom: 5px;
+  } */
+
+  #navbar a.active-link::before,
+  #navbar a:hover::before {
+    left: 0;
+    right: 0;
+  }
+
+  #navbar a {
+    font-size: 19px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 670px) {
+  #navbar a {
+    font-size: 16px;
+  }
+  .navbar-brand {
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 575px) {
+  #navbar a {
+    font-size: 20px;
+  }
+ 
+}

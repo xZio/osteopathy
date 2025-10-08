@@ -1,0 +1,106 @@
+.about {
+  position: relative;
+  background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0.2) 70%,
+      rgba(255, 255, 255, 0.8) 100%
+    ),
+    url(../../images/aboutbg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right top;
+  min-height: calc(100vh - 250px);
+}
+
+.about-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+} */
+
+.about h1 {
+  font-size: 50px;
+  color: #133848;
+  font-weight: 650;
+  margin: 20px;
+}
+
+.about h2 {
+  font-size: 40px;
+  color: #0c6f72;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.about-content {
+  padding-left: 30px;
+}
+
+.about p {
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-align: start;
+  padding-left: 10px;
+}
+
+.about li {
+  display: flex;
+  font-weight: 500;
+}
+
+.list-icon {
+  color: #31babe;
+}
+
+.telegram-link {
+  text-decoration: none;
+  color: #31babe;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: font 0.3s ease;
+}
+
+.telegram-link:hover {
+  font-weight: 700;
+}
+
+@media (max-width: 990px) {
+  .about {
+    background: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.2) 70%,
+        rgba(255, 255, 255, 0.8) 100%
+      ),
+      url(../../images/aboutbg_1000px.jpg);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 800px;
+  }
+  .about-content {
+    padding-top: 240px;
+  }
+}
+
+@media (max-width: 575px) {
+  
+  .about {
+  background-position: right top 200px;
+  }
+  .about-content {
+    padding-top: 440px;
+  }
+}

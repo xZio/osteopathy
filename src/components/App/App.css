@@ -1,0 +1,19 @@
+.app {
+  position: relative;
+  font-family: "Montserrat";
+  text-align: center;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.no-padding {
+  --bs-gutter-x: 0 !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+

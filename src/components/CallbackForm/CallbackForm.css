@@ -1,0 +1,165 @@
+@keyframes anim-glow {
+  0% {
+    box-shadow: 0 0 #31babe;
+  }
+  100% {
+    box-shadow: 0 0 40px 20px transparent;
+  }
+}
+
+.callback-button {
+  position: absolute;
+  top: 28px;
+  right: 30px;
+  width: 100px;
+  height: 100px;
+  color: #31babe;
+  border-radius: 50%;
+  border: 2px solid #31babe;
+  background-color: #133848;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  animation: anim-glow 3s ease infinite;
+}
+
+.phone-logo {
+  width: 85%;
+  height: 85%;
+}
+
+.callback-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 8;
+}
+
+.callback-overlay-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.callback-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  flex-direction: column;
+  padding: 40px 15px 50px;
+  background-color: #133848;
+  border-radius: 8px;
+  z-index: 9;
+  transition: all 0.4s ease;
+  width: 70%;
+  max-width: 1000px;
+  border: 1px solid rgb(231, 189, 37);
+  box-shadow: 9px -7px 20px 4px rgba(231, 189, 37, 0.5);
+}
+
+.callback-form-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.input-span {
+  font-size: 17px;
+  color: #e7bd25;
+  align-self: flex-start;
+  padding-left: 18px;
+}
+
+.form-input {
+  margin: 10px;
+  border-radius: 4px;
+
+  padding: 5px 10px;
+  color: #757575;
+  font-size: 17px;
+  height: 40px;
+  width: 95%;
+  border: 2px solid rgb(231, 189, 37);
+}
+
+.form-select {
+  margin: 10px;
+  border-radius: 4px;
+  padding: 0px 10px;
+  color: #757575;
+  font-size: 17px;
+  border: 2px solid rgb(231, 189, 37);
+  height: 40px;
+  width: 95%;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.form-select:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:focus,
+.form-input:-webkit-autofill:hover {
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #757575;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.form-button {
+  background-color: #208181d9;
+  color: #e7bd25;
+  margin: 15px 10px 0;
+  border-radius: 4px;
+  border: 2px solid #e7bd25;
+  padding: 10px 5px;
+  font-size: 20px;
+  width: 85%;
+  font-weight: 650;
+}
+
+.form-select:focus {
+  outline: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+}
+
+.calendar {
+  background-image: url(../../images/calendar.svg);
+  background-repeat: no-repeat;
+  background-clip: border-box;
+  background-position: right 7px center;
+  background-size: 20px 20px;
+}
+
+@media (max-width: 810px) {
+  .callback-button {
+    position: fixed;
+    top: auto;
+    bottom: 40px;
+    right: 10px;
+  }
+}

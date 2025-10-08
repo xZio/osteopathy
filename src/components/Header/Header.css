@@ -1,0 +1,72 @@
+.header {
+  width: 100%;
+  background-color: #133848;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 130px;
+  gap: 30px;
+  font-size: 23px;
+  font-weight: 600;
+  color: #31babe;
+  padding-right: 150px;
+}
+
+.phone-number-logo {
+  size: 25px;
+}
+
+.header-phone {
+  white-space: nowrap;
+}
+
+.header-phone a {
+  text-decoration: none;
+  color: #31babe;
+  padding-left: 5px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1435px) {
+  .header-info {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .header-info {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 1030px) {
+  .header-container {
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-info {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 0 0 0;
+  }
+  .header-phone {
+    padding-left: 15px;
+  }
+}
+@media (max-width: 420px) {
+  .header-info {
+    flex-direction: column;
+  }
+}
