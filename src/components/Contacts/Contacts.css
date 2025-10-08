@@ -36,11 +36,24 @@
   display: flex;
   font-size: 20px;
   padding-left: 100px;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .contact-column a {
   text-decoration: none;
   color: #31babe;
+}
+
+.email-link {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto; /* allow to shrink within flex row */
+  min-width: 0; /* required for ellipsis inside flex */
+  text-align: left;
 }
 
 .adress-contact {
@@ -195,6 +208,9 @@
 @media (min-width: 395px) and (max-width: 470px) {
   .email-link {
     font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 

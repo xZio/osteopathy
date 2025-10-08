@@ -12,6 +12,11 @@
   background-size: cover;
   background-position: right top;
   min-height: calc(100vh - 250px);
+  overflow-x: hidden;
+}
+
+.about-hero-mobile {
+  display: none;
 }
 
 .about-header {
@@ -78,29 +83,59 @@
 
 @media (max-width: 990px) {
   .about {
-    background: linear-gradient(
-        to left,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0) 30%,
-        rgba(255, 255, 255, 0.2) 70%,
-        rgba(255, 255, 255, 0.8) 100%
-      ),
-      url(../../images/aboutbg_1000px.jpg);
-    background-repeat: no-repeat;
-    background-position: right top;
-    background-size: 800px;
+    background: none;
+    position: relative;
+  }
+  .about-header {
+    position: relative;
+    z-index: 2; /* keep header above the image */
   }
   .about-content {
-    padding-top: 240px;
+    padding-top: 280px; /* match increased hero height (340px) + spacing */
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 0 12px;
+  }
+  .about-hero-mobile {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0; /* avoid horizontal overflow */
+    width: auto;
+    height: 340px;
+    background: url(../../images/aboutbg_1000px.jpg) no-repeat center top / cover;
+    z-index: 1;
   }
 }
 
 @media (max-width: 575px) {
-  
   .about {
-  background-position: right top 200px;
+    background: none;
+  }
+  .about-header {
+    position: relative;
+    z-index: 2;
+    align-items: flex-start; /* keep header left-aligned on small screens */
   }
   .about-content {
-    padding-top: 440px;
+    padding-top: 200px; /* ensure content starts below hero on very small screens */
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .about-hero-mobile {
+    height: 300px; /* restore explicit height to prevent overlap */
+    background: url(../../images/aboutbg_1000px.jpg) no-repeat center top / cover;
+  }
+  .about p {
+    line-height: 1.5;
+  }
+  .about li {
+    align-items: flex-start;
+  }
+  .list-icon {
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
   }
 }

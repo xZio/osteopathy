@@ -181,10 +181,9 @@ function Contacts() {
             <a
               href="mailto:alexanderchelombitkin@gmail.com"
               className="email-link"
+              title="alexanderchelombitkin@gmail.com"
             >
-              {window.innerWidth < 395
-                ? "написать письмо"
-                : "alexanderchelombitkin@gmail.com"}
+              alexanderchelombitkin@gmail.com
             </a>
           </p>
           <p className="contact">
