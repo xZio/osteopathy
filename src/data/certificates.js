@@ -54,7 +54,7 @@ export const certificatesList = [
     },
     {
       imgSrc: img9,
-      title: "Другие дипломы и свидеьельства",
+      title: "Другие дипломы и свидетельства",
       date: "",
     },
   ];
