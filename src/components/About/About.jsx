@@ -4,16 +4,26 @@ import Col from "react-bootstrap/Col";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaTelegram } from "react-icons/fa";
 import "./About.css";
+import avatarPhoto from "../../images/avatar-Photoroom.png";
 
 function About() {
   return (
-    <>
-      <Container fluid className="about ">
+      <Container fluid className="about">
         <Col md={9} sm={6} className="about-header">
-          <h1>Остеопат</h1>
+          <h1>Биодинамическая остеопатия</h1>
         
         </Col>
-        {/* Mobile hero image shown on small screens to avoid text overlapping */}
+        {/* Avatar shown on small screens, replaces heavy background */}
+        <div className="about-avatar" aria-hidden="true">
+          <img
+            src={avatarPhoto}
+            alt="Аватар врача"
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 575px) 85vw, (max-width: 1000px) 70vw, 300px"
+          />
+        </div>
+        {/* Legacy mobile hero kept for larger breakpoints; hidden by CSS on small */}
         <div className="about-hero-mobile" aria-hidden="true" />
         <Row>
           <Col lg={5} md={10} sm={10} className="about-content">
@@ -68,7 +78,6 @@ function About() {
           </Col>
         </Row>
       </Container>
-    </>
   );
 }
 

@@ -19,34 +19,24 @@
   display: none;
 }
 
+/* Hide avatar by default (only show on small screens via media queries) */
+.about-avatar {
+  display: none;
+}
+
 .about-header {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* .ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0;
-} */
-
 .about h1 {
   font-size: 50px;
   color: #133848;
   font-weight: 650;
-  margin: 20px;
-}
 
-.about h2 {
-  font-size: 40px;
-  color: #0c6f72;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+  padding-bottom: 30px;
+  max-width: 600px;
 }
 
 .about-content {
@@ -81,9 +71,10 @@
   font-weight: 700;
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1000px) {
   .about {
     background: none;
+    background-color: #f4fbfb; /* solid background on small screens */
     position: relative;
   }
   .about-header {
@@ -91,27 +82,32 @@
     z-index: 2; /* keep header above the image */
   }
   .about-content {
-    padding-top: 280px; /* match increased hero height (340px) + spacing */
     padding-left: 16px;
     padding-right: 16px;
     margin: 0 12px;
   }
-  .about-hero-mobile {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0; /* avoid horizontal overflow */
-    width: auto;
-    height: 340px;
-    background: url(../../images/aboutbg_1000px.jpg) no-repeat center top / cover;
-    z-index: 1;
+
+  .about-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .about-avatar img {
+    width: min(70%, 300px);
+    height: auto;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 3px solid #31babe; /* site accent color */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 }
 
 @media (max-width: 575px) {
   .about {
     background: none;
+    background-color: #f4fbfb; /* solid background on very small screens */
   }
   .about-header {
     position: relative;
@@ -119,13 +115,11 @@
     align-items: flex-start; /* keep header left-aligned on small screens */
   }
   .about-content {
-    padding-top: 200px; /* ensure content starts below hero on very small screens */
     padding-left: 12px;
     padding-right: 12px;
   }
-  .about-hero-mobile {
-    height: 300px; /* restore explicit height to prevent overlap */
-    background: url(../../images/aboutbg_1000px.jpg) no-repeat center top / cover;
+  .about-avatar img {
+    width: min(85%, 300px);
   }
   .about p {
     line-height: 1.5;
