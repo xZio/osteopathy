@@ -1,7 +1,4 @@
 import { NavLink } from "react-router-dom"; // Измененный импорт
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 import logo from "../../images/logo.png";
 import "./NavBar.css";
 import { FiAlignJustify } from "react-icons/fi";
@@ -12,13 +9,9 @@ function NavBar() {
 
   return (
     <>
-      <Navbar
-        expand="sm"
-        expanded={isOpen}
-        onToggle={(isOpen) => setIsOpen(isOpen)}
-      >
-        <Container id="navbar" fluid className="d-flex justify-content-between align-items-center w-100">
-          <Navbar.Brand>
+      <nav className="navbar">
+        <div id="navbar" className="colapsed-container">
+          <div className="navbar-brand">
             <NavLink to="/" end>
               <img
                 src={logo}
@@ -28,53 +21,59 @@ function NavBar() {
                 alt="logo"
               />
             </NavLink>
-          </Navbar.Brand>
-          <Navbar.Toggle
+          </div>
+          <button
             id="navButton"
-            aria-controls="basic-navbar-nav "
-            className={isOpen ? "menu-open" : ""}
-            children={<FiAlignJustify size={40} className="button-icon" />}
-          />
-
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link as="div">
-                <NavLink
-                  to="/"
-                  end
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  О себе
-                </NavLink>
-              </Nav.Link>
-              <Nav.Link as="div">
-                <NavLink
-                  to="/certificates"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Опыт
-                </NavLink>
-              </Nav.Link>
-              <Nav.Link as="div">
-                <NavLink
-                  to="/contacts"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Контакты
-                </NavLink>
-              </Nav.Link>
-              <Nav.Link as="div">
-                <NavLink
-                  to="/prices"
-                  className={({ isActive }) => (isActive ? "active-link" : "")}
-                >
-                  Цены и отзывы
-                </NavLink>
-              </Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+            aria-controls="basic-navbar-nav"
+            aria-expanded={isOpen}
+            aria-label="Toggle navigation"
+            className={`navbar-toggler ${isOpen ? "menu-open" : ""}`}
+            onClick={() => setIsOpen((v) => !v)}
+          >
+            <FiAlignJustify size={40} className="button-icon" />
+          </button>
+        </div>
+        <div
+          id="basic-navbar-nav"
+          className={`navbar-collapse ${isOpen ? "show" : ""}`}
+        >
+          <div className="navbar-nav">
+            <div className="nav-link">
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                О себе
+              </NavLink>
+            </div>
+            <div className="nav-link">
+              <NavLink
+                to="/certificates"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Опыт
+              </NavLink>
+            </div>
+            <div className="nav-link">
+              <NavLink
+                to="/contacts"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Контакты
+              </NavLink>
+            </div>
+            <div className="nav-link">
+              <NavLink
+                to="/prices"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Цены и отзывы
+              </NavLink>
+            </div>
+          </div>
+        </div>
+      </nav>
     </>
   );
 }

@@ -1,12 +1,11 @@
 import "./Experience.css";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { Container } from "react-bootstrap";
 import Certificates from "../Certificates/Certificates";
 import { institutionList } from "../../data/education";
 
 function Experience() {
   return (
-    <Container fluid className="no-padding">
+    <div className="no-padding">
       <div className="experience-section">
         <div className="experience">
           <h1 className="expierence-header"> Образование и опыт работы:</h1>
@@ -26,7 +25,7 @@ function Experience() {
         </div>
         <Certificates />
       </div>
-    </Container>
+    </div>
   );
 }
 

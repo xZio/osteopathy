@@ -1,9 +1,8 @@
 import "./Footer.css";
-import { Container } from "react-bootstrap";
 
 function Footer() {
   return (
-    <Container fluid className="no-padding">
+    <div className="no-padding">
       <footer className="footer">
         <p className="footer-info">
           Информация на сайте носит исключительно ознакомительный характер. Все
@@ -17,7 +16,7 @@ function Footer() {
           специалистом
         </p> 
       </footer>
-    </Container>
+    </div>
   );
 }
 

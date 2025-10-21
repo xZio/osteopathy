@@ -6,6 +6,13 @@
   justify-content: flex-start;
 }
 
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .header-info {
   display: flex;
   align-items: center;
@@ -48,11 +55,11 @@
   }
 }
 
-@media (max-width: 1030px) {
+@media (max-width: 1100px) {
   .header-container {
     flex-direction: column-reverse;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start; /* keep navbar left-aligned */
+    justify-content: flex-start;
   }
   .header-info {
     flex-direction: row;
@@ -60,6 +67,7 @@
     justify-content: center;
     gap: 10px;
     padding: 15px 0 0 0;
+    width: 100%; /* center only the info section */
   }
   .header-phone {
     padding-left: 15px;

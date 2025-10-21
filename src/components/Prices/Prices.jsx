@@ -1,13 +1,12 @@
 import "./Prices.css";
 import YandexMapWidget from "../YandexFeedback/YandexFeedback";
-import { Container, Row, Col } from "react-bootstrap";
 import logo from "../../images/logo.png";
 
 function Prices({ toggleForm }) {
   return (
-    <Container className="prices" fluid>
-      <Row>
-        <Col>
+    <div className="prices">
+      <div className="row">
+        <div className="col">
           <div className="prices-container">
             <h2>Цены:</h2>
             <p>Взрослые - 7000 рублей</p>
@@ -30,12 +29,12 @@ function Prices({ toggleForm }) {
 
             <img src={logo} alt="logo" className="prices-logo" />
           </div>
-        </Col>
-        <Col xs={10} md={6} className="prices-row">
+        </div>
+        <div className="col prices-row">
           <YandexMapWidget />
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

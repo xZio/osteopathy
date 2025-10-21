@@ -1,4 +1,25 @@
 :root {
+  /* Theme colors */
+  --color-primary: #31babe; /* teal */
+  --color-dark: #133848; /* deep blue */
+  --color-accent-yellow: #e7bd25;
+  --color-bg-soft: #f4fbfb;
+  --color-text-muted: #757575;
+  --color-border: #e6ecee;
+
+  /* Spacing scale */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --container-gutter-sm: 12px;
+  --container-gutter: 16px;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -52,6 +73,22 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Lightweight grid (replaces react-bootstrap Container/Row/Col where used) */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--container-gutter, 16px) * -1);
+  margin-right: calc(var(--container-gutter, 16px) * -1);
+}
+
+.col {
+  padding-left: var(--container-gutter, 16px);
+  padding-right: var(--container-gutter, 16px);
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 @media (prefers-color-scheme: light) {

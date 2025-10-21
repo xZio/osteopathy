@@ -5,13 +5,11 @@
 }
 
 .navbar {
+  width: 100%;
   background-color: #133848;
-  flex-grow: 1;
-}
-
-#navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .colapsed-container {
@@ -20,8 +18,10 @@
   align-items: center;
 }
 
+/* Hide menu by default on small screens */
+
 /* Основные стили для всех ссылок */
-#navbar a {
+.navbar a {
   color: #31babe;
   text-decoration: none;
   position: relative;
@@ -32,7 +32,7 @@
 }
 
 /* Стили для подчеркивания */
-#navbar a::before {
+.navbar a::before {
   content: "";
   background: #31babe;
   height: 1px;
@@ -45,19 +45,19 @@
 }
 
 /* Состояние при ховере и фокусе */
-#navbar a:hover::before,
-#navbar a:focus::before {
+.navbar a:hover::before,
+.navbar a:focus::before {
   right: 7px;
   left: 8px;
   opacity: 1;
 }
 
 /* Активная ссылка - всегда показывает подчеркивание */
-#navbar a.active-link {
+.navbar a.active-link {
   font-weight: 650;
 }
 
-#navbar a.active-link::before {
+.navbar a.active-link::before {
   right: 7px;
   left: 8px;
   opacity: 1;
@@ -83,7 +83,8 @@
   padding: 10px 20px;
   border: 1px solid #31babe;
   transition: border 0.2s ease;
-  margin-left: auto;
+  display: none; /* hidden by default */
+  margin-right: 40px;
 }
 
 /* .navbar-toggler:hover {
@@ -106,44 +107,21 @@
 .navbar-nav {
   align-items: flex-start;
   padding-left: 20px;
+  display: flex; /* show menu by default on larger screens */
+  flex-direction: row;
+  gap: 12px;
 }
 
-/* Добавьте эти стили */
-.navbar-collapse.collapsing {
-  height: auto;
-  transition: none !important;
-}
-
-.navbar-collapse.show {
-  height: auto;
-  transition: height 0.4s ease !important;
+.navbar-collapse {
+  flex-basis: 0;
 }
 
 /* Медиа-запросы для мобильных устройств */
 
 @media (max-width: 1150px) {
-  #navbar {
-    padding: 0;
-    margin: 0;
-  }
-
-  .navbar {
-    margin: 0;
-    padding: 0;
-  }
-
   .navbar-nav {
     align-items: center;
   }
-
-  .navbar-toggler {
-    margin: 0 30px;
-  }
-
-  /* Корректировка подчеркивания для мобильных */
-  /*   #navbar a::before {
-    bottom: 5px;
-  } */
 
   #navbar a.active-link::before,
   #navbar a:hover::before {
@@ -158,18 +136,52 @@
   }
 }
 
-@media (max-width: 670px) {
-  #navbar a {
-    font-size: 16px;
-  }
-  .navbar-brand {
-    margin: 0 !important;
+@media (max-width: 710px) {
+  .navbar a {
+    font-size: 18px;
   }
 }
 
-@media (max-width: 575px) {
-  #navbar a {
-    font-size: 20px;
+@media (max-width: 670px) {
+  .navbar {
+    flex-direction: column;
   }
- 
+
+  .colapsed-container {
+    width: 100%;
+  }
+
+  .navbar-toggler {
+    display: inline-flex; /* show burger button on smaller screens */
+  }
+
+  /* Hide horizontal menu when burger button appears */
+  .navbar-collapse {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(19, 56, 72, 0.9);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
+    height: 0;
+    
+  }
+
+  .navbar-collapse.show {
+    opacity: 1;
+    transform: translateY(0);
+    height: 500px;
+  }
+
+  .navbar-brand {
+    margin: 0 !important;
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 20px;
+    width: 100%;
+  }
 }

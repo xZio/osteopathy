@@ -13,6 +13,8 @@
   background-position: right top;
   min-height: calc(100vh - 250px);
   overflow-x: hidden;
+  padding-left: 12px; /* container gutters */
+  padding-right: 12px;
 }
 
 .about-hero-mobile {
@@ -28,14 +30,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.about h1 {
   font-size: 50px;
   color: #133848;
   font-weight: 650;
-
-  padding-bottom: 30px;
   max-width: 600px;
 }
 
@@ -78,13 +75,13 @@
     position: relative;
   }
   .about-header {
-    position: relative;
-    z-index: 2; /* keep header above the image */
+    margin: 30px auto;
   }
   .about-content {
     padding-left: 16px;
     padding-right: 16px;
     margin: 0 12px;
+    box-sizing: border-box;
   }
 
   .about-avatar {
@@ -92,6 +89,7 @@
     align-items: center;
     justify-content: center;
     background: transparent;
+    padding-bottom: 30px;
   }
 
   .about-avatar img {
@@ -105,21 +103,15 @@
 }
 
 @media (max-width: 575px) {
-  .about {
-    background: none;
-    background-color: #f4fbfb; /* solid background on very small screens */
-  }
   .about-header {
-    position: relative;
-    z-index: 2;
-    align-items: flex-start; /* keep header left-aligned on small screens */
+    font-size: 40px;
   }
+
   .about-content {
-    padding-left: 12px;
-    padding-right: 12px;
+    width: 100%; /* difference: full-width on extra small */
   }
   .about-avatar img {
-    width: min(85%, 300px);
+    width: min(85%, 300px); /* difference: larger avatar on very small */
   }
   .about p {
     line-height: 1.5;
@@ -131,5 +123,25 @@
     margin-right: 8px;
     display: inline-flex;
     align-items: center;
+  }
+}
+@media (max-width: 450px) {
+  .about-header {
+    font-size: 34px;
+  }}
+
+/* Bootstrap-like container and column widths for larger screens */
+@media (min-width: 575px) {
+  .about-content {
+    width: 83.3333%; /* sm=10 */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1000px) {
+  .about-content {
+    width: 51.6667%; /* lg=5 */
+    margin-left: 16px; /* small nudge similar to grid gutter */
   }
 }
