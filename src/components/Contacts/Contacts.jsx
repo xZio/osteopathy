@@ -1,5 +1,5 @@
 import "./Contacts.css";
-import { Container, Row, Col } from "react-bootstrap";
+import "../Forms/FormElements.css";
 import YandexMap from "../YandexMap/YandexMap";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { BsBuildings } from "react-icons/bs";
@@ -75,91 +75,87 @@ function Contacts() {
   }
 
   return (
-    <Container className="contacts" fluid>
-      <Row>
-        <Col  className="map">
-          <h2> Карта проезда</h2>
-          <YandexMap />
-        </Col>
-
-      </Row>
-      <Row>
-
-        <Col className="contact-form-column">
-          <h2> Записаться на приём</h2>
-          <form
-            ref={contactFormRef}
-            className="contact-form"
-            onSubmit={handleSubmit}
+    <div className="contacts">
+      <div className="map">
+        <h2> Карта проезда</h2>
+        <YandexMap />
+      </div>
+      
+      <div className="contact-form-column">
+        <h2> Записаться на приём</h2>
+        <form
+          ref={contactFormRef}
+          className="contact-form"
+          onSubmit={handleSubmit}
+        >
+          <span className="input-name">Имя:</span>
+          <input
+            type="text"
+            className="contact-input"
+            name="name"
+            onChange={handleChange}
+            value={contactFormData.name || ""}
+            maxLength={20}
+            required
+          ></input>
+          <span className="input-name">Телефон:</span>
+          <IMaskInput
+            name="phone"
+            type="tel"
+            ref={contactPhoneRef}
+            mask={"+7 (000) 000-00-00"}
+            onAccept={handleAccept}
+            value={contactFormData.phone || ""}
+            overwrite="shift"
+            lazy={false} // Маска видна постоянно
+            unmask={false} // Сохраняем маску в значении
+            radix="."
+            className="contact-input"
+            required
+          />
+          <span className="input-name">Дата:</span>
+          <IMaskInput
+            id="contactDateInput"
+            name="date"
+            type="text"
+            ref={contactDateRef}
+            mask={Date}
+            onAccept={handleAccept}
+            value={contactFormData.date || ""}
+            overwrite="shift"
+            lazy={false} // Маска видна постоянно
+            unmask={false} // Сохраняем маску в значении
+            radix="."
+            className="contact-input"
+            autoComplete="off"
+            required
+          />
+          <span className="input-name">Время:</span>
+          <select
+            name="time"
+            value={contactFormData.time || ""} // Убедитесь, что значение соответствует value option
+            onChange={handleChange}
+            className="contact-input"
+            required
           >
-            <span className="input-name">Имя:</span>
-            <input
-              type="text"
-              className="contact-input"
-              name="name"
-              onChange={handleChange}
-              value={contactFormData.name || ""}
-              maxLength={20}
-              required
-            ></input>
-            <span className="input-name">Телефон:</span>
-            <IMaskInput
-              name="phone"
-              type="tel"
-              ref={contactPhoneRef}
-              mask={"+7 (000) 000-00-00"}
-              onAccept={handleAccept}
-              value={contactFormData.phone || ""}
-              overwrite="shift"
-              lazy={false} // Маска видна постоянно
-              unmask={false} // Сохраняем маску в значении
-              radix="."
-              className="contact-input"
-              required
-            />
-            <span className="input-name">Дата:</span>
-            <IMaskInput
-              id="contactDateInput"
-              name="date"
-              type="text"
-              ref={contactDateRef}
-              mask={Date}
-              onAccept={handleAccept}
-              value={contactFormData.date || ""}
-              overwrite="shift"
-              lazy={false} // Маска видна постоянно
-              unmask={false} // Сохраняем маску в значении
-              radix="."
-              className="contact-input"
-              autoComplete="off"
-              required
-            />
-            <span className="input-name">Время:</span>
-            <select
-              name="time"
-              value={contactFormData.time || ""} // Убедитесь, что значение соответствует value option
-              onChange={handleChange}
-              className="contact-input"
-              required
-            >
-              <option value="" disabled>
-                Выберите время
+            <option value="" disabled>
+              Выберите время
+            </option>
+            {generateTimeOptions().map((time) => (
+              <option key={time} value={time}>
+                {time}
               </option>
-              {generateTimeOptions().map((time) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
+            ))}
+          </select>
 
-            <button type="submit" className="contact-form-button" onClick={handleSubmit}>
-              Отправить
-            </button>
-          </form>
-        </Col>
-      </Row>
-      <Row className="contact-section">
-        <Col className="contact-column">
+          <button type="submit" className="contact-form-button" onClick={handleSubmit}>
+            Отправить
+          </button>
+        </form>
+      </div>
+      
+      <div className="contact-section">
+        <div className="contact-column">
           <h2> Контакты</h2>
 
           <p className="contact phone-contact">
@@ -197,32 +193,28 @@ function Contacts() {
               https://t.me/chelomosteo
             </a>
           </p>
-        </Col>
+        </div>
 
-        <Col >
-          <div className="vertical-video-section">
-            <h2 className="video-title">Как пройти</h2>
-            <div className="vertical-video-wrapper">
-              <video
-                controls
-                muted
-                loop
-                playsInline
-                disablePictureInPicture
-                controlsList="nodownload"
-                className="vertical-video"
-              //poster="/images/vertical-preview.jpg" // Превью 9:16
-              >
-                <source src={road} type="video/mp4" />
-                Ваш браузер не поддерживает видео.
-              </video>
-            </div>
+        <div className="vertical-video-section">
+          <h2 className="video-title">Как пройти</h2>
+          <div className="vertical-video-wrapper">
+            <video
+              controls
+              muted
+              loop
+              playsInline
+              disablePictureInPicture
+              controlsList="nodownload"
+              className="vertical-video"
+            //poster="/images/vertical-preview.jpg" // Превью 9:16
+            >
+              <source src={road} type="video/mp4" />
+              Ваш браузер не поддерживает видео.
+            </video>
           </div>
-        </Col>
-      </Row>
-
-
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 }
 

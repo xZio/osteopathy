@@ -9,14 +9,14 @@
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
+  justify-content: center;
 }
 
 .header-info {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   padding-right: 130px;
   gap: 30px;
   font-size: 23px;
@@ -40,40 +40,32 @@
   white-space: nowrap;
 }
 
-@media (max-width: 1435px) {
-  .header-info {
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 10px;
-  }
+.header-phone {
+  padding-left: 15px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1370px) {
   .header-info {
-    font-size: 18px;
+    flex-direction: column;
+    gap: 15px;
   }
 }
 
 @media (max-width: 1100px) {
+  .header-info {
+    font-size: 18px;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+  }
+
   .header-container {
     flex-direction: column-reverse;
-    align-items: flex-start; /* keep navbar left-aligned */
-    justify-content: flex-start;
-  }
-  .header-info {
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 15px 0 0 0;
-    width: 100%; /* center only the info section */
-  }
-  .header-phone {
-    padding-left: 15px;
+    padding-top: 30px;
   }
 }
-@media (max-width: 420px) {
+
+@media (max-width: 450px) {
   .header-info {
     flex-direction: column;
   }

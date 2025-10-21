@@ -126,7 +126,7 @@ const YandexMap = () => {
     const placemark = new ymaps.Placemark(
       [59.86406, 30.407847],
       {
-        balloonHeader: "Остеопатия",
+        balloonHeader: "Биодинамическая остеопатия",
         balloonContent: "Адрес: проспект Славы, 52, корп. 1",
       },
       {

@@ -1,4 +1,3 @@
-/* Replaced react-bootstrap layout with plain divs */
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaTelegram } from "react-icons/fa";
 import "./About.css";

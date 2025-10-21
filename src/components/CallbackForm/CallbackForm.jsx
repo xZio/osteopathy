@@ -1,6 +1,7 @@
 import "./CallbackForm.css";
+import "../Forms/FormElements.css";
 import { RiPhoneFill } from "react-icons/ri";
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { IMaskInput } from "react-imask";
 import AirDatepicker from "air-datepicker";
 import "air-datepicker/air-datepicker.css";
@@ -21,7 +22,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     errors,
     isValid,
     setValues,
-    setErrors,
+
     handleAccept,
     validateForm,
   } = useFormAndValidation();

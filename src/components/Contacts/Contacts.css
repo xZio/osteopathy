@@ -3,25 +3,6 @@
   max-width: 100vw;
   margin: 20px 0;
   color: #133848;
-
-}
-
-.contacts .row {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1600px;
-}
-
-.contacts .col {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
-
-@media (min-width: 768px) {
-  .contacts .col.contact-form-column {
-    flex: 0 0 66.6667%;
-    max-width: 66.6667%;
-  }
 }
 
 .map {
@@ -30,12 +11,21 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Обеспечиваем одинаковую ширину карты и формы */
+.map .yandex-map {
+  width: 90% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
 }
 
 .contact-column {
   display: flex;
   flex-direction: column;
-
   margin-top: 20px;
 }
 
@@ -56,6 +46,7 @@
   padding-left: 100px;
   justify-content: flex-start;
   text-align: left;
+  margin-bottom: 5px;
 }
 
 .contact-column a {
@@ -99,10 +90,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 10px;
 }
 
 .vertical-video-wrapper {
-
   max-width: 300px;
   height: 500px;
   margin: 0 auto;
@@ -111,15 +102,20 @@
   overflow: hidden;
   box-shadow: 0 10px 80px rgba(49, 186, 190, 0.4);
   position: relative;
+
   /* Добавляем для точного позиционирования */
 }
 
 .vertical-video {
-  width: 100%;
-  height: 500px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
   aspect-ratio: 9/16;
   object-fit: cover;
-  /* Важное свойство! */
+  position: relative;
+  left: -3px;
+  top: -3px;
+  border-radius: 6px;
+  /* Растягиваем видео для скрытия рамки */
 }
 
 .contact-form-column {
@@ -127,8 +123,9 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-
-
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .contact-form {
@@ -143,21 +140,38 @@
   width: 90%;
   margin: 0 auto;
   max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .contact-input {
-  padding: 10px 10px;
-  margin: 5px 0 20px 0;
-  width: 90%;
-  border: 1px solid #31babe;
-  border-radius: 8px;
-  box-shadow: 0 10px 80px rgba(49, 186, 190, 0.4);
-  color: #4f5152;
-  font-weight: 500;
+  padding: 10px 10px !important;
+  margin: 5px 0 20px 0 !important;
+  width: 90% !important;
+  border: 1px solid #31babe !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 80px rgba(49, 186, 190, 0.4) !important;
+  color: #4f5152 !important;
+  font-weight: 500 !important;
+  background-color: white !important;
+  font-size: 17px !important;
+  height: auto !important;
 }
 
-.contact-input:focus {
+.contact-input:focus,
+select.contact-input:focus {
   outline: none;
+}
+
+/* Select styling */
+select.contact-input {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2331babe' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 40px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
 }
 
 .contact-input:-webkit-autofill:focus,
@@ -167,7 +181,6 @@
   transition: background-color 5000s ease-in-out 0s;
   -webkit-text-fill-color: #5e6364;
   font-weight: 500;
-
 }
 
 .input-name {
@@ -176,64 +189,119 @@
 }
 
 .contact-form-button {
-  background-color: #31babe;
-  color: white;
-  margin: 15px 10px 0;
-  border-radius: 4px;
-  border: none;
-  padding: 15px 5px;
-  font-size: 17px;
-  width: 90%;
-  font-weight: 650;
+  background-color: #31babe !important;
+  color: white !important;
+  margin: 15px 10px 0 !important;
+  border-radius: 4px !important;
+  border: none !important;
+  padding: 15px 5px !important;
+  font-size: 17px !important;
+  width: 90% !important;
+  font-weight: 650 !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.contact-form-button:hover {
+  background-color: #2a9ca0 !important;
 }
 
 .contact-section {
   margin: 0 auto;
-  max-width: 1600px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-@media (max-width: 910px) {
-  .contact {
-    padding-left: 0;
-  }
+/* Mobile-first responsive styles */
+
+/* Base mobile styles */
+.contact {
+  padding-left: 0;
 }
 
-@media (max-width: 870px) {
-  .phone-contact {
-    font-size: 19px;
-  }
+.phone-contact {
+  font-size: 19px;
 }
 
-@media (max-width: 800px) {
-  .contact-section {
-    display: flex;
-    flex-direction: column;
-  }
+/* Мобильный layout - все в столбик */
+.contact-section {
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 20px;
 }
 
+.contact-column {
+  margin-top: 15px;
+}
+
+.vertical-video {
+  top: 0;
+  left: 0;
+  transform: none;
+}
+
+.telegram-linka {
+  font-size: 16px;
+}
+
+/* Одинаковая ширина карты и формы на мобильных */
 @media (max-width: 768px) {
-  .vertical-video-wrapper {
-    border-width: 2px;
+  .map .yandex-map {
+    width: 95% !important;
+    max-width: 100% !important;
   }
 
-  .vertical-video {
-    top: 0;
-    left: 0;
-    transform: none;
+  .contact-form {
+    width: 95% !important;
+    max-width: 100% !important;
   }
 }
 
-@media (min-width: 395px) and (max-width: 470px) {
+/* Small mobile styles */
+@media (min-width: 361px) {
+  .telegram-linka {
+    font-size: 20px;
+  }
+}
+
+/* Medium mobile styles */
+@media (min-width: 395px) {
   .email-link {
-    font-size: 16px;
+    font-size: 20px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 }
 
-@media (max-width: 360px) {
-  .telegram-linka {
-    font-size: 16px;
+@media (min-width: 871px) {
+  .phone-contact {
+    font-size: 20px;
+  }
+}
+
+/* Desktop layout - контакты и видео в одну строку */
+@media (min-width: 1024px) {
+  .contact-section {
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .contact-column {
+    flex: 1;
+    margin-top: 0;
+    padding-right: 10px;
+  }
+
+  .vertical-video-section {
+    flex: 1;
+    padding-left: 10px;
   }
 }

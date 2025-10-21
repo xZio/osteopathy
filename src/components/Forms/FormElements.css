@@ -1,0 +1,103 @@
+/* Unified form elements styles */
+
+/* Base input and select styles */
+.form-input,
+.contact-input,
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+select {
+  padding: 10px 10px !important;
+  margin: 5px 0 20px 0 !important;
+  width: 90% !important;
+  border: 1px solid #31babe !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 80px rgba(49, 186, 190, 0.4) !important;
+  color: #4f5152 !important;
+  font-weight: 500 !important;
+  background-color: white !important;
+  font-size: 17px !important;
+  height: auto !important;
+  font-family: inherit !important;
+  box-sizing: border-box !important;
+}
+
+/* Focus states */
+.form-input:focus,
+.contact-input:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+select:focus {
+  outline: none !important;
+  border-color: #2a9ca0 !important;
+  box-shadow: 0 10px 80px rgba(49, 186, 190, 0.6) !important;
+}
+
+/* Autofill styles */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:focus,
+.form-input:-webkit-autofill:hover,
+.contact-input:-webkit-autofill,
+.contact-input:-webkit-autofill:focus,
+.contact-input:-webkit-autofill:hover,
+input[type="text"]:-webkit-autofill,
+input[type="text"]:-webkit-autofill:focus,
+input[type="text"]:-webkit-autofill:hover,
+input[type="tel"]:-webkit-autofill,
+input[type="tel"]:-webkit-autofill:focus,
+input[type="tel"]:-webkit-autofill:hover,
+input[type="email"]:-webkit-autofill,
+input[type="email"]:-webkit-autofill:focus,
+input[type="email"]:-webkit-autofill:hover {
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #5e6364 !important;
+  font-weight: 500 !important;
+}
+
+/* Select arrow styling */
+select.form-input,
+select.contact-input,
+select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2331babe' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  padding-right: 40px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+}
+
+/* Button styles */
+.form-button,
+.contact-form-button {
+  background-color: #31babe !important;
+  color: white !important;
+  margin: 15px 10px 0 !important;
+  border-radius: 4px !important;
+  border: none !important;
+  padding: 15px 5px !important;
+  font-size: 17px !important;
+  width: 90% !important;
+  font-weight: 650 !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+  font-family: inherit !important;
+}
+
+.form-button:hover,
+.contact-form-button:hover {
+  background-color: #2a9ca0 !important;
+}
+
+/* Label styles */
+.input-name {
+  align-self: flex-start;
+  padding-left: 5%;
+  color: #31babe;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 5px;
+}

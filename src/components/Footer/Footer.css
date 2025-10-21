@@ -35,27 +35,38 @@
   height: 1px;
 }
 
-@media screen and (max-width: 1085px) {
- 
+/* Mobile-first responsive styles */
+
+/* Base mobile styles */
+.footer-text {
+  font-size: 14px;
+}
+
+.footer-info {
+  font-size: 12px;
+}
+
+/* Small mobile styles */
+@media (min-width: 441px) {
+  .footer-text {
+    font-size: 15px;
+  }
+  
+  .footer-info {
+    font-size: 13px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 931px) {
   .footer-text {
     font-size: 17px;
   }
 }
 
-@media screen and (max-width: 930px) {
- 
+/* Desktop styles */
+@media (min-width: 1086px) {
   .footer-text {
-    font-size: 15px;
+    font-size: 20px;
   }
-
-  @media screen and (max-width: 440px) {
- 
-    .footer-text {
-      font-size: 14px;
-    }
-
-    .footer-info {
-      font-size: 12px;
-    }
-}
 }

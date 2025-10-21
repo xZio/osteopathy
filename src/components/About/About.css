@@ -68,20 +68,29 @@
   font-weight: 700;
 }
 
+/* Mobile-first responsive styles */
+
+/* Base mobile styles - only for small screens */
 @media (max-width: 1000px) {
   .about {
     background: none;
     background-color: #f4fbfb; /* solid background on small screens */
     position: relative;
   }
+}
+
+@media (max-width: 1000px) {
   .about-header {
     margin: 30px auto;
+    font-size: 34px;
   }
+
   .about-content {
     padding-left: 16px;
     padding-right: 16px;
     margin: 0 12px;
     box-sizing: border-box;
+    width: 100%; /* difference: full-width on extra small */
   }
 
   .about-avatar {
@@ -93,45 +102,78 @@
   }
 
   .about-avatar img {
-    width: min(70%, 300px);
+    width: min(85%, 300px); /* difference: larger avatar on very small */
     height: auto;
     border-radius: 50%;
     background-color: transparent;
     border: 3px solid #31babe; /* site accent color */
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
-}
 
-@media (max-width: 575px) {
-  .about-header {
-    font-size: 40px;
-  }
-
-  .about-content {
-    width: 100%; /* difference: full-width on extra small */
-  }
-  .about-avatar img {
-    width: min(85%, 300px); /* difference: larger avatar on very small */
-  }
   .about p {
     line-height: 1.5;
   }
+
   .about li {
     align-items: flex-start;
   }
+
   .list-icon {
     margin-right: 8px;
     display: inline-flex;
     align-items: center;
   }
 }
-@media (max-width: 450px) {
-  .about-header {
-    font-size: 34px;
-  }}
 
-/* Bootstrap-like container and column widths for larger screens */
-@media (min-width: 575px) {
+/* Small mobile styles */
+@media (min-width: 451px) and (max-width: 1000px) {
+  .about-header {
+    font-size: 40px;
+  }
+}
+
+/* Tablet styles */
+@media (min-width: 576px) and (max-width: 1000px) {
+  .about-header {
+    font-size: 40px;
+  }
+  
+  .about-content {
+    width: 83.3333%; /* sm=10 */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .about-avatar img {
+    width: min(70%, 300px);
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1001px) {
+  .about {
+    background: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 30%,
+        rgba(255, 255, 255, 0.2) 70%,
+        rgba(255, 255, 255, 0.8) 100%
+      ),
+      url(../../images/aboutbg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: right top;
+    position: relative;
+  }
+  
+  .about-content {
+    width: 51.6667%; /* lg=5 */
+    margin-left: 16px; /* small nudge similar to grid gutter */
+  }
+}
+
+/* Custom container and column widths for larger screens */
+@media (min-width: 575px) and (max-width: 1000px) {
   .about-content {
     width: 83.3333%; /* sm=10 */
     margin-left: auto;
@@ -139,7 +181,7 @@
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1001px) {
   .about-content {
     width: 51.6667%; /* lg=5 */
     margin-left: 16px; /* small nudge similar to grid gutter */

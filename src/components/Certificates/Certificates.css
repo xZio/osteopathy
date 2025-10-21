@@ -227,63 +227,129 @@
   text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 1100px) {
+/* Mobile-first responsive styles */
+
+/* Base mobile styles */
+.serts-header {
+  padding: 0 10px;
+}
+
+.serts-paragraf {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  margin: 0;
+  padding: 0 12px; /* side padding for comfortable reading */
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+
+.serts-paragraf p {
+  font-size: 15.5px;
+  line-height: 1.65;
+}
+
+.serts-paragraf img {
+  width: 16px;
+  height: 16px;
+  vertical-align: -2px;
+}
+
+.cert-grid {
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 24px 10px;
+}
+
+.cert-card {
+  min-height: 320px;
+}
+
+.cert-thumbButton {
+  padding: 12px 12px 0;
+}
+
+.cert-thumbImage {
+  max-height: 180px;
+}
+
+.cert-caption {
+  height: 88px; /* fixed on small screens */
+}
+
+.lightbox-content {
+  width: 96vw;
+}
+
+/* Tablet styles */
+@media (min-width: 651px) {
+  .serts-header {
+    padding: 0;
+  }
+  
+  .serts-paragraf {
+    width: 60%;
+    align-self: flex-start;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 0;
+    margin: 0;
+  }
+  
+  .serts-paragraf p {
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  
+  .serts-paragraf img {
+    width: 20px;
+    height: 20px;
+  }
+  
   .cert-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    padding: 40px 10px;
   }
+  
   .cert-card {
     min-height: 360px;
   }
+  
+  .cert-thumbButton {
+    padding: 14px 14px 0;
+  }
+  
   .cert-thumbImage {
     max-height: 210px;
   }
+  
   .cert-caption {
     height: 96px; /* fixed under 1100px */
   }
+  
+  .lightbox-content {
+    width: min(960px, 92vw);
+  }
 }
 
-@media (max-width: 650px) {
-  .serts-header {
-    padding: 0 10px;
-  }
-  .serts-paragraf {
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-    margin: 0;
-    padding: 0 12px; /* side padding for comfortable reading */
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-  }
-  .serts-paragraf p {
-    font-size: 15.5px;
-    line-height: 1.65;
-  }
-  .serts-paragraf img {
-    width: 16px;
-    height: 16px;
-    vertical-align: -2px;
-  }
+/* Desktop styles */
+@media (min-width: 1101px) {
   .cert-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 24px 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  
   .cert-card {
-    min-height: 320px;
+    min-height: 380px; /* unified card height */
   }
-  .cert-thumbButton {
-    padding: 12px 12px 0;
-  }
+  
   .cert-thumbImage {
-    max-height: 180px;
+    max-height: 220px;
   }
+  
   .cert-caption {
-    height: 88px; /* fixed on small screens */
-  }
-  .lightbox-content {
-    width: 96vw;
+    height: 100px; /* fixed caption height for consistency */
   }
 }

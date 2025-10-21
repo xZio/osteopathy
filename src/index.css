@@ -56,7 +56,8 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* Global button styles - only for basic buttons */
+button:not(.contact-form-button):not(.form-button):not(.callback-button):not(.navbar-toggler) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -67,15 +68,31 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:not(.contact-form-button):not(.form-button):not(.callback-button):not(.navbar-toggler):hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+button:not(.contact-form-button):not(.form-button):not(.callback-button):not(.navbar-toggler):focus,
+button:not(.contact-form-button):not(.form-button):not(.callback-button):not(.navbar-toggler):focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Lightweight grid (replaces react-bootstrap Container/Row/Col where used) */
+/* Form elements base styles */
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+}
+
+/* Custom grid system (replaces Bootstrap) */
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -89,6 +106,14 @@ button:focus-visible {
   box-sizing: border-box;
   flex: 0 0 100%;
   max-width: 100%;
+}
+
+/* Responsive column widths */
+@media (min-width: 768px) {
+  .col.contact-form-column {
+    flex: 0 0 66.6667%;
+    max-width: 66.6667%;
+  }
 }
 
 @media (prefers-color-scheme: light) {

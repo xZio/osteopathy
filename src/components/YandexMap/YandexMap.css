@@ -9,45 +9,70 @@
   margin: 0 auto;
 }
 
-/* Кастомные стили балуна */
+/* Кастомные стили балуна в стилях сайта */
 .custom-balloon {
-  background-color: aqua;
-  border-radius: 15px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
   background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  padding: 15px;
+  border: 3px solid #31babe;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 20px;
+  position: absolute;
+  box-shadow: 0 10px 80px rgba(49, 186, 190, 0.4);
   transform: translate(-50%, -100%);
+  min-width: 250px;
+  max-width: 350px;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .custom-balloon h3 {
-  font-weight: 600;
+  font-weight: 650;
+  color: #133848;
+  font-size: 18px;
+  margin: 0 0 10px 0;
+  text-align: center;
+  word-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.3;
+  padding-right: 30px; /* Место для кнопки закрытия */
 }
 
 .custom-balloon p {
-  color: #666;
-  margin: 0;
+  color: #133848;
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .balloon-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   cursor: pointer;
   background-color: transparent;
-  z-index: 1;
+  z-index: 10;
   line-height: 1;
-  color: #666;
+  color: #31babe;
   border: none;
-  font-size: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.balloon-close:hover {
+  color: #133848;
+  background-color: rgba(49, 186, 190, 0.1);
 }
 
 .balloon-content {
-  padding: 10px !important;
-  font-family: Arial, sans-serif !important;
+  padding: 0 !important;
+  font-family: "Montserrat", Arial, sans-serif !important;
 }
 
 /* Убираем стандартный "хвостик" */
@@ -59,72 +84,211 @@
 
 .arrow {
   position: absolute;
-  bottom: -10px;
+  bottom: -13px;
   left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
+  border-top: 13px solid #31babe;
+  transform: translateX(-50%);
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: -10px;
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 10px solid #fff;
-  transform: translateX(-50%);
 }
 
 .balloon-title {
   margin: 0 0 10px 0;
-  font-size: 16px;
-  color: #333;
+  font-size: 18px;
+  color: #133848;
+  font-weight: 650;
+  text-align: center;
 }
 
 .balloon-body {
   font-size: 14px;
-  color: #666;
-  line-height: 1.5;
+  color: #133848;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .balloon-body a {
-  color: #007bff;
+  color: #31babe;
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
 }
-@media (max-width: 768px) {
-  .yandex-map {
-    height: 50vh;
-    width: 95%;
-    border-width: 2px;
-    margin-bottom: 20px;
-  }
-  
-  /* Адаптация балуна для мобильных */
+
+.balloon-body a:hover {
+  color: #133848;
+}
+/* Mobile-first responsive styles */
+
+/* Base mobile styles */
+.yandex-map {
+  height: 50vh;
+  width: 95%;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* Адаптация балуна для мобильных */
+.custom-balloon {
+  width: 90vw !important;
+  max-width: 300px;
+  transform: translate(-50%, -110%);
+  padding: 15px;
+  border-width: 2px;
+  min-width: 200px;
+}
+
+/* Специальные стили для очень маленьких экранов */
+@media (max-width: 480px) {
   .custom-balloon {
-    width: 90vw !important;
-    max-width: 235px;
-    transform: translate(-50%, -110%);
-    padding: 0;
-    
-  }
-  
-  .arrow {
-    bottom: -8px;
-    border-left-width: 8px;
-    border-right-width: 8px;
-    border-top-width: 8px;
-  }
-  
-  .balloon-content {
-    padding: 10px !important;
+    width: 95vw !important;
+    max-width: 280px;
+    min-width: 180px;
+    padding: 12px;
   }
 
   .balloon-title {
-    font-size: 16px;
+    font-size: 14px;
+    padding-right: 20px;
+    /* Принудительный перенос для "Биодинамическая остеопатия" */
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
-  .balloon-body {
-    font-size: 13px;
+  /* Принудительный перенос для длинных названий */
+  .balloon-title {
+    max-width: 180px;
+    width: 180px;
+    text-align: center;
+    line-height: 1.2;
+    margin: 0 auto;
+    word-spacing: 0.1em;
   }
-  
+
   .balloon-close {
-    top: 5px;
-    right: 5px;
-    font-size: 30px;
+    top: 2px;
+    right: 2px;
+    font-size: 16px;
+    width: 20px;
+    height: 20px;
   }
 }
 
+.arrow {
+  bottom: -10px;
+  border-left-width: 10px;
+  border-right-width: 10px;
+  border-top-width: 10px;
+}
+
+.arrow::after {
+  bottom: 2px;
+  left: -8px;
+  border-left-width: 8px;
+  border-right-width: 8px;
+  border-top-width: 8px;
+}
+
+.balloon-content {
+  padding: 0 !important;
+}
+
+.balloon-title {
+  font-size: 16px;
+  color: #133848;
+  font-weight: 650;
+  word-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.3;
+  padding-right: 25px;
+}
+
+.balloon-body {
+  font-size: 13px;
+  color: #133848;
+  word-wrap: break-word;
+}
+
+.balloon-close {
+  top: 3px;
+  right: 3px;
+  font-size: 18px;
+  width: 22px;
+  height: 22px;
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+  .yandex-map {
+    height: 500px;
+    width: 90%;
+    max-width: 1200px;
+    border-width: 3px;
+    margin-bottom: 0;
+  }
+
+  .custom-balloon {
+    width: auto !important;
+    max-width: 350px;
+    transform: translate(-50%, -100%);
+    padding: 20px;
+    border-width: 3px;
+  }
+
+  .arrow {
+    bottom: -13px;
+    border-left-width: 13px;
+    border-right-width: 13px;
+    border-top-width: 13px;
+  }
+
+  .arrow::after {
+    bottom: 3px;
+    left: -10px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-top-width: 10px;
+  }
+
+  .balloon-content {
+    padding: 0 !important;
+  }
+
+  .balloon-title {
+    font-size: 18px;
+    color: #133848;
+    font-weight: 650;
+    word-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+    padding-right: 35px;
+  }
+
+  .balloon-body {
+    font-size: 14px;
+    color: #133848;
+    word-wrap: break-word;
+  }
+
+  .balloon-close {
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+  }
+}
