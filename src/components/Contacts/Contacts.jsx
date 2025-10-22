@@ -9,16 +9,25 @@ import road from "../../videos/RoadTo.mp4";
 import { useEffect, useRef, useState } from "react";
 import AirDatepicker from "air-datepicker";
 import { IMaskInput } from "react-imask";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
 function Contacts() {
-  const [contactFormData, setContactFormData] = useState({
-    name: "",
-    phone: "",
-    date: "",
-    time: "",
-  });
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  
+  const {
+    values,
+    errors,
+    touched,
+    isValid,
+    handleChange,
+    handleAccept,
+    validateForm,
+    resetForm,
+    setValues,
+    formRef
+  } = useFormAndValidation();
 
-  const contactFormRef = useRef(null);
   const contactPhoneRef = useRef(null);
   const contactDateRef = useRef(null);
 
@@ -28,32 +37,21 @@ function Contacts() {
       minDate: Date.now(),
       autoClose: true,
       onSelect: function (formattedDate) {
-        setContactFormData({
-          ...contactFormData,
-          date: formattedDate.formattedDate,
-        });
+        setValues({ ...values, date: formattedDate.formattedDate });
       },
     });
-  }, [contactFormData]);
-
-  function handleAccept(value, data) {
-    setContactFormData((prev) => ({
-      ...prev,
-      [data.el.input.name]: value,
-    }));
-  }
-
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setContactFormData((prev) => ({ ...prev, [name]: value }));
-  }
+  }, [setValues, values]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitted data:", contactFormData);
-    setContactFormData({});
-    if (contactFormRef.current) contactFormRef.current.reset();
-    contactFormRef.current.classList.remove("callback-form-active");
+    
+    if (validateForm()) {
+      console.log("✅ Форма успешно отправлена:", values);
+      resetForm();
+      setShowSuccessPopup(true);
+    } else {
+      console.log("❌ Ошибка валидации формы:", errors);
+    }
   }
 
   function generateTimeOptions() {
@@ -84,20 +82,21 @@ function Contacts() {
       <div className="contact-form-column">
         <h2> Записаться на приём</h2>
         <form
-          ref={contactFormRef}
+          ref={formRef}
           className="contact-form"
           onSubmit={handleSubmit}
         >
           <span className="input-name">Имя:</span>
           <input
             type="text"
-            className="contact-input"
+            className={`contact-input ${touched?.name && errors?.name ? 'error' : ''}`}
             name="name"
             onChange={handleChange}
-            value={contactFormData.name || ""}
+            value={values.name || ""}
             maxLength={20}
             required
           ></input>
+          {touched?.name && errors?.name && (<span className="error-message">{errors.name}</span>)}
           <span className="input-name">Телефон:</span>
           <IMaskInput
             name="phone"
@@ -105,14 +104,15 @@ function Contacts() {
             ref={contactPhoneRef}
             mask={"+7 (000) 000-00-00"}
             onAccept={handleAccept}
-            value={contactFormData.phone || ""}
+            value={values.phone || ""}
             overwrite="shift"
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className="contact-input"
+            className={`contact-input ${touched?.phone && errors?.phone ? 'error' : ''}`}
             required
           />
+          {touched?.phone && errors?.phone && (<span className="error-message">{errors.phone}</span>)}
           <span className="input-name">Дата:</span>
           <IMaskInput
             id="contactDateInput"
@@ -121,21 +121,22 @@ function Contacts() {
             ref={contactDateRef}
             mask={Date}
             onAccept={handleAccept}
-            value={contactFormData.date || ""}
+            value={values.date || ""}
             overwrite="shift"
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className="contact-input"
+            className={`contact-input ${touched?.date && errors?.date ? 'error' : ''}`}
             autoComplete="off"
             required
           />
+          {touched?.date && errors?.date && (<span className="error-message">{errors.date}</span>)}
           <span className="input-name">Время:</span>
           <select
             name="time"
-            value={contactFormData.time || ""} // Убедитесь, что значение соответствует value option
+            value={values.time || ""}
             onChange={handleChange}
-            className="contact-input"
+            className={`contact-input ${touched?.time && errors?.time ? 'error' : ''}`}
             required
           >
             <option value="" disabled>
@@ -147,10 +148,11 @@ function Contacts() {
               </option>
             ))}
           </select>
+          {touched?.time && errors?.time && (<span className="error-message">{errors.time}</span>)}
 
-          <button type="submit" className="contact-form-button" onClick={handleSubmit}>
-            Отправить
-          </button>
+                   <button type="submit" className={`contact-form-button ${!isValid ? 'disabled' : ''}`} disabled={!isValid} onClick={handleSubmit}>
+                     Отправить
+                   </button>
         </form>
       </div>
       
@@ -214,6 +216,11 @@ function Contacts() {
           </div>
         </div>
       </div>
+      
+      <SuccessPopup 
+        isOpen={showSuccessPopup} 
+        onClose={() => setShowSuccessPopup(false)} 
+      />
     </div>
   );
 }

@@ -1,47 +1,19 @@
 .prices {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding: 50px 20px;
   color: #ffffff;
   margin: 0 auto;
-  max-width: 2000px;
-}
+  max-width: 1800px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
 
-.prices-row {
-  margin: 0 auto;
-}
-
-.prices .row {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1600px;
-}
-
-.prices .col {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
-
-@media (min-width: 768px) {
-  .prices .col.prices-row {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-}
-
-.prices h2 {
-  font-weight: 600;
-  font-size: 50px;
-  padding-bottom: 20px;
-  color: #e7bd25;
 }
 
 .prices-container {
   border: 2px solid rgb(49, 186, 190);
   box-shadow: 9px -5px 20px 0px rgba(49, 186, 190, 0.6);
   border-radius: 10px;
-  max-width: 700px;
-  height: 1250px;
-  margin: 0 auto;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -53,19 +25,29 @@
   );
 }
 
+.prices h2 {
+  font-weight: 600;
+  font-size: clamp(30px, 4vw, 50px);
+  padding-bottom: 20px;
+  color: #e7bd25;
+  margin: 0;
+}
+
 .prices-container p {
-  font-size: 37px;
+  font-size: clamp(18px, 2.5vw, 37px);
   text-align: center;
+  margin: 10px 0;
 }
 
 .prices-container ul {
-  font-size: 30px;
+  font-size: clamp(16px, 2vw, 30px);
   list-style-type: none;
+  margin: 10px 0;
 }
 
 .prices-container h3 {
-  margin-top: 10px;
-  font-size: 45px;
+  margin: 10px 0;
+  font-size: clamp(20px, 3vw, 45px);
   font-weight: 600;
 }
 
@@ -75,8 +57,8 @@
 }
 
 .prices-logo {
-  width: 330px;
-  height: 330px;
+  width: clamp(200px, 20vw, 330px);
+  height: clamp(200px, 20vw, 330px);
   margin-top: 10px;
   border-radius: 50%;
   border: 2px solid #e7bd25;
@@ -88,13 +70,37 @@
   color: #e7bd25;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
-  font-size: 40px;
-  font-weight: 600;
   padding: 0;
+  font-size: clamp(20px, 3vw, 40px);
+  font-weight: 600;
+  cursor: pointer;
   animation: shake 0.6s infinite;
+}
+
+/* Desktop layout - side by side */
+@media (min-width: 1024px) {
+  .prices {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .prices-container {
+    flex: 1;
+    max-width: none;
+  }
+}
+
+@media (max-width: 1360px) {
+  .prices {
+    height: 1100px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .prices {
+    height: auto;
+    
+  }
 }
 
 @keyframes shake {
@@ -112,123 +118,5 @@
   }
   100% {
     transform: translateY(0);
-  }
-}
-/* Mobile-first responsive styles */
-
-/* Base mobile styles */
-.prices-row {
-  padding: 0 12px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.prices-container {
-  height: 100%;
-  padding: 20px;
-}
-
-.prices h2 {
-  font-size: 40px;
-  padding-bottom: 0;
-}
-
-.prices-container p {
-  font-size: 23px;
-  margin: 0;
-}
-
-.prices-container h3 {
-  margin-top: 10px;
-  font-size: 25px;
-}
-
-.prices-container ul {
-  font-size: 20px;
-}
-
-.prices-container-button {
-  font-size: 25px;
-}
-
-.prices-logo {
-  width: 240px;
-  height: 240px;
-}
-
-/* Tablet styles */
-@media (min-width: 769px) {
-  .prices-container {
-    height: 900px;
-  }
-}
-
-/* Desktop styles */
-@media (min-width: 976px) {
-  .prices-container {
-    height: 1100px;
-  }
-  
-  .prices h2 {
-    font-size: 50px;
-    padding-bottom: 10px;
-  }
-  
-  .prices-container p {
-    font-size: 30px;
-  }
-  
-  .prices-container h3 {
-    font-size: 35px;
-  }
-  
-  .prices-container ul {
-    font-size: 25px;
-  }
-  
-  .prices-container-button {
-    font-size: 30px;
-  }
-  
-  .prices-logo {
-    width: 270px;
-    height: 270px;
-  }
-}
-
-@media (min-width: 1101px) {
-  .prices-logo {
-    width: 330px;
-    height: 330px;
-  }
-}
-
-@media (min-width: 1461px) {
-  .prices-container {
-    height: 1250px;
-  }
-  
-  .prices h2 {
-    font-size: 50px;
-    padding-bottom: 20px;
-  }
-  
-  .prices-container p {
-    font-size: 37px;
-  }
-  
-  .prices-container h3 {
-    font-size: 45px;
-  }
-  
-  .prices-container ul {
-    font-size: 30px;
-  }
-  
-  .prices-container-button {
-    font-size: 40px;
   }
 }

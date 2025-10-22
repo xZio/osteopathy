@@ -196,7 +196,7 @@ select.contact-input {
   border: none !important;
   padding: 15px 5px !important;
   font-size: 17px !important;
-  width: 90% !important;
+  width: 90%;
   font-weight: 650 !important;
   cursor: pointer !important;
   transition: background-color 0.3s ease !important;
@@ -204,6 +204,24 @@ select.contact-input {
 
 .contact-form-button:hover {
   background-color: #2a9ca0 !important;
+}
+
+.contact-form-button.disabled,
+.contact-form-button:disabled {
+  background-color: #ccc !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+  opacity: 0.5;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.contact-form-button.disabled:hover,
+.contact-form-button:disabled:hover {
+  background-color: #ccc !important;
+  color: #666 !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .contact-section {
@@ -303,5 +321,30 @@ select.contact-input {
   .vertical-video-section {
     flex: 1;
     padding-left: 10px;
+  }
+}
+
+/* Error message styles */
+.error-message {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: -15px;
+  margin-bottom: 10px;
+  display: block;
+  text-align: left !important;
+  padding-left: 11%;
+  font-weight: 500;
+  animation: errorSlideIn 0.3s ease-out;
+  width: 100%;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

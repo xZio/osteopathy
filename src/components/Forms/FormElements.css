@@ -80,7 +80,7 @@ select {
   border: none !important;
   padding: 15px 5px !important;
   font-size: 17px !important;
-  width: 90% !important;
+  width: 80%;
   font-weight: 650 !important;
   cursor: pointer !important;
   transition: background-color 0.3s ease !important;

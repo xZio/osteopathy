@@ -1,32 +1,30 @@
 import "./CallbackForm.css";
 import "../Forms/FormElements.css";
 import { RiPhoneFill } from "react-icons/ri";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { IMaskInput } from "react-imask";
 import AirDatepicker from "air-datepicker";
 import "air-datepicker/air-datepicker.css";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import SuccessPopup from "../SuccessPopup/SuccessPopup";
 
 function CallbackForm({ toggleForm, isFormOpen }) {
-  /*   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    date: "",
-    time: "",
-  }); */
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const {
     values,
     handleChange,
+    handleAccept,
     errors,
+    touched,
     isValid,
     setValues,
-    handleAccept,
     validateForm,
+    resetForm,
+    formRef
   } = useFormAndValidation();
 
-  const formRef = useRef(null);
   const phoneRef = useRef(null);
   const dateRef = useRef(null);
 
@@ -46,14 +44,14 @@ function CallbackForm({ toggleForm, isFormOpen }) {
   useEffect(() => {
     const form = formRef.current;
     const overlay = document.querySelector(".callback-overlay");
-    if (isFormOpen) {
+    if (isFormOpen && form) {
       form.classList.add("callback-form-active");
       overlay.classList.add("callback-overlay-active");
-    } else {
+    } else if (form) {
       form.classList.remove("callback-form-active");
       overlay.classList.remove("callback-overlay-active");
     }
-  }, [isFormOpen]);
+  }, [isFormOpen, formRef]);
 
   // Обработчик клавиши ESC для закрытия формы
   useEffect(() => {
@@ -95,14 +93,14 @@ function CallbackForm({ toggleForm, isFormOpen }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    validateForm();
-    console.log(isValid, "isValid");
-
-    console.log(values, "values");
-    setValues({});
-    console.log(errors, "errors");
-    if (formRef.current) formRef.current.reset();
-    toggleForm();
+    if (validateForm()) {
+      console.log("✅ Форма успешно отправлена:", values);
+      resetForm();
+      toggleForm();
+      setShowSuccessPopup(true);
+    } else {
+      console.log("❌ Ошибка валидации формы:", errors);
+    }
   }
 
   function generateTimeOptions() {
@@ -143,7 +141,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
           <span className="input-span">Имя:</span>
           <input
             type="text"
-            className="form-input"
+            className={`form-input ${touched?.name && errors?.name ? 'error' : ''}`}
             placeholder="Введите ваше имя"
             name="name"
             onChange={handleChange}
@@ -151,6 +149,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             maxLength={20}
             required
           ></input>
+          {touched?.name && errors?.name && (<span className="error-message">{errors.name}</span>)}
           <span className="input-span">Телефон:</span>
           <IMaskInput
             name="phone"
@@ -163,9 +162,10 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className="form-input"
+            className={`form-input ${touched?.phone && errors?.phone ? 'error' : ''}`}
             required
           />
+          {touched?.phone && errors?.phone && (<span className="error-message">{errors.phone}</span>)}
           <span className="input-span">Дата:</span>
           <IMaskInput
             id="dateInput"
@@ -179,16 +179,17 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className="form-input calendar"
+            className={`form-input calendar ${touched?.date && errors?.date ? 'error' : ''}`}
             autoComplete="off"
             required
           />
+          {touched?.date && errors?.date && (<span className="error-message">{errors.date}</span>)}
           <span className="input-span">Время:</span>
           <select
             name="time"
             value={values.time}
             onChange={handleChange}
-            className="form-select"
+            className={`form-select ${touched?.time && errors?.time ? 'error' : ''}`}
             required
           >
             <option value="">Выберите время</option>
@@ -198,12 +199,18 @@ function CallbackForm({ toggleForm, isFormOpen }) {
               </option>
             ))}
           </select>
+          {touched?.time && errors?.time && (<span className="error-message">{errors.time}</span>)}
         </div>
 
-        <button type="submit" className="form-button" onClick={handleSubmit}>
-          Отправить
-        </button>
+                 <button type="submit" className={`form-button ${!isValid ? 'disabled' : ''}`} disabled={!isValid} onClick={handleSubmit}>
+                   Отправить
+                 </button>
       </form>
+      
+      <SuccessPopup 
+        isOpen={showSuccessPopup} 
+        onClose={() => setShowSuccessPopup(false)} 
+      />
     </div>
   );
 }

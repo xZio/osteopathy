@@ -1,12 +1,12 @@
 .yandex-map-widget-container {
   max-width: 700px;
-  height: 1250px;
+  width: 100%;
+  height: auto;
   overflow: hidden;
   position: relative;
   margin: 0 auto;
   border: 2px solid #31babe;
   border-radius: 10px;
-  margin-right: 30px;
   box-shadow: 9px -5px 20px 0px rgba(49, 186, 190, 0.6);
 }
 
@@ -43,33 +43,32 @@
 /* Mobile-first responsive styles */
 
 /* Base mobile styles */
-.yandex-map-widget-container {
-  height: 900px;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+@media (max-width: 768px) {
+  .yandex-map-widget-container {
+    height: 900px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
 }
 
 /* Tablet styles */
-@media (min-width: 769px) {
+@media (min-width: 769px) and (max-width: 1023px) {
   .yandex-map-widget-container {
     height: 900px;
-    width: auto;
-    padding: 0;
+    width: 100%;
+    max-width: 700px;
     margin: 0 auto;
-    margin-right: 30px;
   }
 }
 
 /* Desktop styles */
-@media (min-width: 976px) {
+@media (min-width: 1024px) {
   .yandex-map-widget-container {
-    height: 1100px;
+   
+    width: 100%;
+    max-width: none;
+    flex: 1;
   }
 }
 
-@media (min-width: 1461px) {
-  .yandex-map-widget-container {
-    height: 1250px;
-  }
-}
