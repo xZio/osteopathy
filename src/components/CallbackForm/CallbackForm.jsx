@@ -22,7 +22,6 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     errors,
     isValid,
     setValues,
-
     handleAccept,
     validateForm,
   } = useFormAndValidation();
@@ -55,6 +54,23 @@ function CallbackForm({ toggleForm, isFormOpen }) {
       overlay.classList.remove("callback-overlay-active");
     }
   }, [isFormOpen]);
+
+  // Обработчик клавиши ESC для закрытия формы
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && isFormOpen) {
+        toggleForm();
+      }
+    };
+
+    if (isFormOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isFormOpen, toggleForm]);
 
   useClickOutside(formRef, (e) => {
     const calendar = document.querySelector(".air-datepicker-nav");
@@ -115,6 +131,14 @@ function CallbackForm({ toggleForm, isFormOpen }) {
 
       <div className="callback-overlay"></div>
       <form ref={formRef} className="callback-form" onSubmit={handleSubmit}>
+        <button 
+          type="button" 
+          className="callback-close-button" 
+          onClick={toggleForm}
+          aria-label="Закрыть форму"
+        >
+          ×
+        </button>
         <div className="form-group">
           <span className="input-span">Имя:</span>
           <input
