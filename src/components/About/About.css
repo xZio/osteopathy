@@ -1,5 +1,17 @@
 .about {
   position: relative;
+  min-height: calc(100vh - 250px);
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.about::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
   background: linear-gradient(
       to left,
       rgba(255, 255, 255, 0) 0%,
@@ -11,17 +23,13 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right top;
-  min-height: calc(100vh - 250px);
-  overflow-x: hidden;
-  padding-left: 12px; /* container gutters */
-  padding-right: 12px;
+  z-index: -1;
 }
 
 .about-hero-mobile {
   display: none;
 }
 
-/* Hide avatar by default (only show on small screens via media queries) */
 .about-avatar {
   display: none;
 }
@@ -68,29 +76,148 @@
   font-weight: 700;
 }
 
-/* Mobile-first responsive styles */
-
-/* Base mobile styles - only for small screens */
-@media (max-width: 1000px) {
-  .about {
-    background: none;
-    background-color: #f4fbfb; /* solid background on small screens */
-    position: relative;
-  }
+/* Стили для блока "Что такое остеопатия" с фоном fon2.jpg */
+.about-osteopathy {
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 100%
+    ),
+    url(../../images/fon2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
 }
 
+.about-osteopathy-content {
+  max-width: 800px;
+  width: 80%;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(49, 186, 190, 0.2);
+}
+
+.about-osteopathy h2 {
+  color: #133848;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.about-osteopathy h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #31babe, #133848);
+  border-radius: 2px;
+}
+
+.about-osteopathy ul {
+  margin-bottom: 30px;
+}
+
+.about-osteopathy li {
+  margin-bottom: 25px;
+  align-items: flex-start;
+  display: flex;
+}
+
+.about-osteopathy .list-icon {
+  margin-right: 15px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  color: #31babe;
+}
+
+.about-osteopathy p {
+  line-height: 1.7;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.about-osteopathy .about-address {
+  background: linear-gradient(135deg, #31babe, #2a9d8f);
+  color: white;
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+  box-shadow: 0 4px 20px rgba(49, 186, 190, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.about-address {
+  background: linear-gradient(135deg, #31babe, #2a9d8f);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+  box-shadow: 0 3px 15px rgba(49, 186, 190, 0.3);
+}
+
+/* Мобильные устройства (до 1000px) */
 @media (max-width: 1000px) {
-  .about-header {
-    margin: 30px auto;
-    font-size: 34px;
+  .about {
+    background-color: #f4fbfb;
+    position: relative;
   }
 
+  .about::before {
+    display: none;
+  }
+
+  /* Стили для блока контента - как у about-osteopathy-content */
   .about-content {
-    padding-left: 16px;
-    padding-right: 16px;
-    margin: 0 12px;
-    box-sizing: border-box;
-    width: 100%; /* difference: full-width on extra small */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(49, 186, 190, 0.2);
+    margin: 20px auto;
+    max-width: 800px;
+    width: 80%;
+  }
+
+  .about-header {
+    margin: 0 0 30px 0;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    color: #133848;
+  }
+
+  .about-header::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #31babe, #133848);
+    border-radius: 2px;
   }
 
   .about-avatar {
@@ -99,14 +226,15 @@
     justify-content: center;
     background: transparent;
     padding-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .about-avatar img {
-    width: min(85%, 300px); /* difference: larger avatar on very small */
+    width: min(85%, 300px);
     height: auto;
     border-radius: 50%;
     background-color: transparent;
-    border: 3px solid #31babe; /* site accent color */
+    border: 3px solid #31babe;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 
@@ -123,67 +251,81 @@
     display: inline-flex;
     align-items: center;
   }
-}
 
-/* Small mobile styles */
-@media (min-width: 451px) and (max-width: 1000px) {
-  .about-header {
-    font-size: 40px;
+  /* Стили для блока остеопатии на мобильных */
+  .about-osteopathy {
+    background-attachment: scroll;
+  }
+
+  .about-osteopathy-content {
+    padding: 30px 20px;
+    border-radius: 15px;
+  }
+
+  .about-osteopathy h2 {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+
+  .about-osteopathy h2::after {
+    width: 50px;
+    height: 3px;
+  }
+
+  .about-osteopathy li {
+    margin-bottom: 20px;
+  }
+
+  .about-osteopathy .list-icon {
+    margin-right: 12px;
+  }
+
+  .about-osteopathy .about-address {
+    font-size: 18px;
+    border-radius: 12px;
   }
 }
 
-/* Tablet styles */
+/* Планшеты (576px-1000px) */
 @media (min-width: 576px) and (max-width: 1000px) {
   .about-header {
-    font-size: 40px;
+    font-size: 30px;
   }
-  
-  .about-content {
-    width: 83.3333%; /* sm=10 */
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
+
   .about-avatar img {
     width: min(70%, 300px);
   }
+
+  .about-osteopathy-content {
+    padding: 40px;
+  }
+
+  .about-osteopathy h2 {
+    font-size: 30px;
+  }
 }
 
-/* Desktop styles */
+/* Десктопы (1001px+) */
 @media (min-width: 1001px) {
-  .about {
-    background: linear-gradient(
-        to left,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0) 30%,
-        rgba(255, 255, 255, 0.2) 70%,
-        rgba(255, 255, 255, 0.8) 100%
-      ),
-      url(../../images/aboutbg.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: right top;
-    position: relative;
+  .about::before {
+    display: block;
   }
-  
-  .about-content {
-    width: 51.6667%; /* lg=5 */
-    margin-left: 16px; /* small nudge similar to grid gutter */
-  }
-}
 
-/* Custom container and column widths for larger screens */
-@media (min-width: 575px) and (max-width: 1000px) {
   .about-content {
-    width: 83.3333%; /* sm=10 */
-    margin-left: auto;
-    margin-right: auto;
+    width: 51.6667%;
+    margin-left: 16px;
   }
-}
 
-@media (min-width: 1001px) {
-  .about-content {
-    width: 51.6667%; /* lg=5 */
-    margin-left: 16px; /* small nudge similar to grid gutter */
+  .about-osteopathy {
+    padding: 80px 40px;
+  }
+
+  .about-osteopathy-content {
+    padding: 60px;
+    max-width: 900px;
+  }
+
+  .about-osteopathy h2 {
+    font-size: 36px;
   }
 }
