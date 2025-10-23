@@ -190,7 +190,7 @@
   /* Стили для блока контента - как у about-osteopathy-content */
   .about-content {
     background: rgba(255, 255, 255, 0.95);
-    padding: 50px;
+    padding: 40px;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     border: 2px solid rgba(49, 186, 190, 0.2);
