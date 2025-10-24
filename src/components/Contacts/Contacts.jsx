@@ -11,6 +11,7 @@ import AirDatepicker from "air-datepicker";
 import { IMaskInput } from "react-imask";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
+import { sendFormToTelegram } from "../../utils/telegramSender";
 
 function Contacts() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -42,15 +43,23 @@ function Contacts() {
     });
   }, [setValues, values]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     
     if (validateForm()) {
-      console.log("✅ Форма успешно отправлена:", values);
-      resetForm();
-      setShowSuccessPopup(true);
-    } else {
-      console.log("❌ Ошибка валидации формы:", errors);
+      try {
+        const success = await sendFormToTelegram(values, "contacts");
+        
+        if (success) {
+          resetForm();
+          setShowSuccessPopup(true);
+        } else {
+          alert("Произошла ошибка при отправке формы. Попробуйте позже.");
+        }
+      } catch (error) {
+        console.error("❌ Критическая ошибка при отправке:", error);
+        alert("Произошла критическая ошибка при отправке формы.");
+      }
     }
   }
 

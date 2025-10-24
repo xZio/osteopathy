@@ -8,6 +8,7 @@ import "air-datepicker/air-datepicker.css";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
+import { sendFormToTelegram } from "../../utils/telegramSender";
 
 function CallbackForm({ toggleForm, isFormOpen }) {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -90,16 +91,24 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   } */
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     if (validateForm()) {
-      console.log("✅ Форма успешно отправлена:", values);
-      resetForm();
-      toggleForm();
-      setShowSuccessPopup(true);
-    } else {
-      console.log("❌ Ошибка валидации формы:", errors);
+      try {
+        const success = await sendFormToTelegram(values, "callback");
+        
+        if (success) {
+          resetForm();
+          toggleForm();
+          setShowSuccessPopup(true);
+        } else {
+          alert("Произошла ошибка при отправке формы. Попробуйте позже.");
+        }
+      } catch (error) {
+        console.error("❌ CallbackForm: Критическая ошибка при отправке:", error);
+        alert("Произошла критическая ошибка при отправке формы.");
+      }
     }
   }
 
