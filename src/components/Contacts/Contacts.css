@@ -126,6 +126,34 @@
   /* Растягиваем видео для скрытия рамки */
 }
 
+/* Стили для полноэкранного режима */
+.vertical-video:fullscreen {
+  object-fit: contain;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  border-radius: 0;
+}
+
+.vertical-video:-webkit-full-screen {
+  object-fit: contain;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  border-radius: 0;
+}
+
+.vertical-video:-moz-full-screen {
+  object-fit: contain;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  border-radius: 0;
+}
+
 .contact-form-column {
   margin: 60px auto;
   display: flex;
