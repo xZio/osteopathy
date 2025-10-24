@@ -316,19 +316,40 @@
   display: block;
   border-radius: 6px;
   background: linear-gradient(180deg, #0d2a36 0%, #071a21 100%);
-  animation: imageFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-  opacity: 0;
-  transform: scale(0.95);
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-@keyframes imageFadeIn {
-  from {
+/* Анимации для перехода картинок */
+.lightbox-image.slide-left {
+  animation: slideInFromRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.lightbox-image.slide-right {
+  animation: slideInFromLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes slideInFromRight {
+  0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateX(100%) scale(0.95);
   }
-  to {
+  100% {
     opacity: 1;
-    transform: scale(1);
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
   }
 }
 

@@ -6,12 +6,14 @@ import frIcon from "../../images/french-icon.png";
 function Certificates() {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState('none');
   const closeButtonRef = useRef(null);
 
   const total = certificatesList.length;
 
   const openLightbox = useCallback((index) => {
     setActiveIndex(index);
+    setSlideDirection('none');
     setIsLightboxOpen(true);
   }, []);
 
@@ -20,11 +22,17 @@ function Certificates() {
   }, []);
 
   const showPrev = useCallback(() => {
+    setSlideDirection('slide-right');
     setActiveIndex((prev) => (prev - 1 + total) % total);
+    // Сброс анимации после завершения
+    setTimeout(() => setSlideDirection('none'), 500);
   }, [total]);
 
   const showNext = useCallback(() => {
+    setSlideDirection('slide-left');
     setActiveIndex((prev) => (prev + 1) % total);
+    // Сброс анимации после завершения
+    setTimeout(() => setSlideDirection('none'), 500);
   }, [total]);
 
   useEffect(() => {
@@ -129,8 +137,9 @@ function Certificates() {
               <img
                 src={certificatesList[activeIndex].imgSrc}
                 alt={certificatesList[activeIndex].title}
-                className="lightbox-image"
+                className={`lightbox-image ${slideDirection}`}
                 decoding="async"
+                key={activeIndex}
               />
               <button type="button" className="lightbox-nav next" onClick={showNext} aria-label="Следующий">❯</button>
             </div>
