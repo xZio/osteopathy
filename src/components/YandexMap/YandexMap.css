@@ -112,6 +112,10 @@
   color: #133848;
   font-weight: 650;
   text-align: center;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .balloon-body {
@@ -163,10 +167,11 @@
   .balloon-title {
     font-size: 14px;
     padding-right: 20px;
-    /* Принудительный перенос для "Биодинамическая остеопатия" */
-    white-space: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;
+    /* Предотвращаем неправильный перенос слов */
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Принудительный перенос для длинных названий */
@@ -211,8 +216,10 @@
   font-size: 16px;
   color: #133848;
   font-weight: 650;
-  word-wrap: break-word;
-  hyphens: auto;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   line-height: 1.3;
   padding-right: 25px;
 }
@@ -272,8 +279,10 @@
     font-size: 18px;
     color: #133848;
     font-weight: 650;
-    word-wrap: break-word;
-    hyphens: auto;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     line-height: 1.3;
     padding-right: 35px;
   }
