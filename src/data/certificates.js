@@ -6,7 +6,7 @@ import img5 from "../images/certificates/5.jpg";
 import img6 from "../images/certificates/6.jpg";
 import img7 from "../images/certificates/7.jpg";
 import img8 from "../images/certificates/8.jpg";
-import img9 from "../images/certificates/9.jpg";
+//import img9 from "../images/certificates/9.jpg";
 
 
 export const certificatesList = [
@@ -52,9 +52,9 @@ export const certificatesList = [
         "Биодинамический взгляд на остеопатию в краниальной области, фаза-3",
       date: "9 февряля 2024 года",
     },
-    {
+ /*    {
       imgSrc: img9,
       title: "Другие дипломы и свидетельства",
       date: "",
-    },
+    }, */
   ];
