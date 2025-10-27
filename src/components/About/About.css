@@ -1,17 +1,7 @@
 .about {
   position: relative;
-  min-height: calc(100vh - 250px);
-  overflow-x: hidden;
-  width: 100%;
-}
 
-.about::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100vh;
+  width: 100%;
   background: linear-gradient(
       to left,
       rgba(255, 255, 255, 0) 0%,
@@ -21,9 +11,7 @@
     ),
     url(../../images/aboutbg.png);
   background-repeat: no-repeat;
-  background-size: cover;
   background-position: right top;
-  z-index: -1;
 }
 
 .about-hero-mobile {
@@ -197,7 +185,6 @@
     display: none;
   }
 
-  /* Стили для блока контента - как у about-osteopathy-content */
   .about-content {
     background: rgba(255, 255, 255, 0.95);
     padding: 30px 20px;
@@ -262,7 +249,6 @@
     align-items: center;
   }
 
-  /* Стили для блока остеопатии на мобильных */
   .about-osteopathy {
     background: none;
   }

@@ -10,10 +10,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 2000px;
+
 }
-.no-padding {
-  --bs-gutter-x: 0 !important;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
-}
+
 

@@ -49,6 +49,14 @@ function NavBar() {
             </div>
             <div className="nav-link">
               <NavLink
+                to="/symptoms"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                Симптомы
+              </NavLink>
+            </div>
+            <div className="nav-link">
+              <NavLink
                 to="/certificates"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >

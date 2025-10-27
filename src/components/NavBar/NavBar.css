@@ -138,13 +138,13 @@
   }
 }
 
-@media (max-width: 710px) {
+@media (max-width: 830px) {
   .navbar a {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 740px) {
   .navbar {
     flex-direction: column;
   }

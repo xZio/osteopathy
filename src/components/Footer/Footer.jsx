@@ -2,7 +2,7 @@ import "./Footer.css";
 
 function Footer() {
   return (
-    <div className="no-padding">
+   
       <footer className="footer">
         <p className="footer-info">
           Информация на сайте носит исключительно ознакомительный характер. Все
@@ -16,7 +16,7 @@ function Footer() {
           специалистом
         </p> 
       </footer>
-    </div>
+ 
   );
 }
 

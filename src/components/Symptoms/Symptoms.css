@@ -1,0 +1,163 @@
+/* Стили для компонента Symptoms, аналогичные about-osteopathy */
+.symptoms {
+  background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 100%
+    ),
+    url(../../images/fon2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.symptoms-content {
+  width: 80%;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 2px solid rgba(49, 186, 190, 0.2);
+}
+
+.symptoms h2 {
+  color: #133848;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+  position: relative;
+}
+
+.symptoms h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #31babe, #133848);
+  border-radius: 2px;
+}
+
+.symptoms ul {
+  margin-bottom: 30px;
+}
+
+.symptoms li {
+  align-items: flex-start;
+  display: flex;
+}
+
+.symptoms .list-icon {
+  margin-right: 15px;
+  margin-top: 3px;
+  flex-shrink: 0;
+  color: #31babe;
+  padding-top: 12px;
+}
+
+.symptoms-text {
+  flex: 1;
+  text-align: left;
+}
+
+.symptoms p {
+  color: #2c3e50;
+  font-weight: 500;
+  margin-bottom: 10px;
+  text-align: left;
+  font-size: 18px;
+}
+
+.symptoms-sublist {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.symptoms-sublist li {
+  color: #2c3e50;
+  font-weight: 500;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 10px;
+  display: list-item;
+  list-style: none;
+  text-align: left;
+}
+
+.symptoms-sublist li::before {
+  content: "•";
+  color: #31babe;
+  font-weight: bold;
+  position: absolute;
+  left: -15px;
+}
+
+.symptoms-contact {
+  background: linear-gradient(135deg, #31babe, #2a9d8f);
+
+  padding: 25px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 30px 0 0 0;
+  box-shadow: 0 4px 20px rgba(49, 186, 190, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.symptoms-contact p {
+  margin: 0;
+  font-size: 18px;
+  color: white;
+}
+
+.symptoms-contact-button {
+  background-color: transparent;
+  color: #e7bd25;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+  margin: 0 0 0 7px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  animation: shake 0.6s infinite;
+}
+
+@media screen and (max-width: 770px) {
+  .symptoms-content {
+    padding: 15px;
+  }
+
+  .symptoms-content ul {
+    padding-left: 0;
+  }
+
+  .symptoms-contact {
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .symptoms-contact p {
+    text-align: center;
+    padding-bottom: 10px;
+  }
+}

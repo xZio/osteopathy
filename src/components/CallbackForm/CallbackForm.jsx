@@ -23,7 +23,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     setValues,
     validateForm,
     resetForm,
-    formRef
+    formRef,
   } = useFormAndValidation();
 
   const phoneRef = useRef(null);
@@ -57,17 +57,17 @@ function CallbackForm({ toggleForm, isFormOpen }) {
   // Обработчик клавиши ESC для закрытия формы
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape' && isFormOpen) {
+      if (event.key === "Escape" && isFormOpen) {
         toggleForm();
       }
     };
 
     if (isFormOpen) {
-      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isFormOpen, toggleForm]);
 
@@ -97,7 +97,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     if (validateForm()) {
       try {
         const success = await sendFormToTelegram(values, "callback");
-        
+
         if (success) {
           resetForm();
           toggleForm();
@@ -106,7 +106,10 @@ function CallbackForm({ toggleForm, isFormOpen }) {
           alert("Произошла ошибка при отправке формы. Попробуйте позже.");
         }
       } catch (error) {
-        console.error("❌ CallbackForm: Критическая ошибка при отправке:", error);
+        console.error(
+          "❌ CallbackForm: Критическая ошибка при отправке:",
+          error
+        );
         alert("Произошла критическая ошибка при отправке формы.");
       }
     }
@@ -138,19 +141,22 @@ function CallbackForm({ toggleForm, isFormOpen }) {
 
       <div className="callback-overlay"></div>
       <form ref={formRef} className="callback-form" onSubmit={handleSubmit}>
-        <button 
-          type="button" 
-          className="callback-close-button" 
+        <button
+          type="button"
+          className="callback-close-button"
           onClick={toggleForm}
           aria-label="Закрыть форму"
         >
           ×
         </button>
         <div className="form-group">
+        <h2>Заказать обратный звонок</h2>
           <span className="input-span">Имя:</span>
           <input
             type="text"
-            className={`form-input ${touched?.name && errors?.name ? 'error' : ''}`}
+            className={`form-input ${
+              touched?.name && errors?.name ? "error" : ""
+            }`}
             placeholder="Введите ваше имя"
             name="name"
             onChange={handleChange}
@@ -158,7 +164,9 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             maxLength={20}
             required
           ></input>
-          {touched?.name && errors?.name && (<span className="error-message">{errors.name}</span>)}
+          {touched?.name && errors?.name && (
+            <span className="error-message">{errors.name}</span>
+          )}
           <span className="input-span">Телефон:</span>
           <IMaskInput
             name="phone"
@@ -171,10 +179,14 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className={`form-input ${touched?.phone && errors?.phone ? 'error' : ''}`}
+            className={`form-input ${
+              touched?.phone && errors?.phone ? "error" : ""
+            }`}
             required
           />
-          {touched?.phone && errors?.phone && (<span className="error-message">{errors.phone}</span>)}
+          {touched?.phone && errors?.phone && (
+            <span className="error-message">{errors.phone}</span>
+          )}
           <span className="input-span">Дата:</span>
           <IMaskInput
             id="dateInput"
@@ -188,17 +200,23 @@ function CallbackForm({ toggleForm, isFormOpen }) {
             lazy={false} // Маска видна постоянно
             unmask={false} // Сохраняем маску в значении
             radix="."
-            className={`form-input calendar ${touched?.date && errors?.date ? 'error' : ''}`}
+            className={`form-input calendar ${
+              touched?.date && errors?.date ? "error" : ""
+            }`}
             autoComplete="off"
             required
           />
-          {touched?.date && errors?.date && (<span className="error-message">{errors.date}</span>)}
+          {touched?.date && errors?.date && (
+            <span className="error-message">{errors.date}</span>
+          )}
           <span className="input-span">Время:</span>
           <select
             name="time"
             value={values.time}
             onChange={handleChange}
-            className={`form-select ${touched?.time && errors?.time ? 'error' : ''}`}
+            className={`form-select ${
+              touched?.time && errors?.time ? "error" : ""
+            }`}
             required
           >
             <option value="">Выберите время</option>
@@ -208,17 +226,24 @@ function CallbackForm({ toggleForm, isFormOpen }) {
               </option>
             ))}
           </select>
-          {touched?.time && errors?.time && (<span className="error-message">{errors.time}</span>)}
+          {touched?.time && errors?.time && (
+            <span className="error-message">{errors.time}</span>
+          )}
         </div>
 
-                 <button type="submit" className={`form-button ${!isValid ? 'disabled' : ''}`} disabled={!isValid} onClick={handleSubmit}>
-                   Отправить
-                 </button>
+        <button
+          type="submit"
+          className={`form-button ${!isValid ? "disabled" : ""}`}
+          disabled={!isValid}
+          onClick={handleSubmit}
+        >
+          Отправить
+        </button>
       </form>
-      
-      <SuccessPopup 
-        isOpen={showSuccessPopup} 
-        onClose={() => setShowSuccessPopup(false)} 
+
+      <SuccessPopup
+        isOpen={showSuccessPopup}
+        onClose={() => setShowSuccessPopup(false)}
       />
     </div>
   );
