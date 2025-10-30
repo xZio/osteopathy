@@ -8,6 +8,7 @@ import Footer from "../Footer/Footer";
 import Contacts from "../Contacts/Contacts";
 import Prices from "../Prices/Prices";
 import Experience from "../Experience/Experience";
+import Admin from "../Admin/Admin";
 
 function App() {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -25,6 +26,7 @@ function App() {
         <Route path="certificates" element={<Experience />} />
         <Route path="contacts" element={<Contacts />} />
         <Route path="prices" element={<Prices toggleForm={toggleForm} />} />
+        <Route path="admin" element={<Admin />} />
       </Routes>
       <Footer />
     </div>

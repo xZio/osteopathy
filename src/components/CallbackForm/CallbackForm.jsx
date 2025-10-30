@@ -9,6 +9,7 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import { sendFormToTelegram } from "../../utils/telegramSender";
+import { apiGetAvailability, apiPublicCreateAppointment } from "../../utils/api";
 
 function CallbackForm({ toggleForm, isFormOpen }) {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -28,6 +29,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
 
   const phoneRef = useRef(null);
   const dateRef = useRef(null);
+  const [availableTimes, setAvailableTimes] = useState([]);
 
   useEffect(() => {
     if (isFormOpen) {
@@ -41,6 +43,27 @@ function CallbackForm({ toggleForm, isFormOpen }) {
       });
     }
   }, [setValues, values, isFormOpen]);
+
+  // Load availability when date changes
+  useEffect(() => {
+    async function loadAvailability() {
+      try {
+        const iso = toISODate(values.date);
+        if (!iso) return;
+        const data = await apiGetAvailability(iso, iso);
+        const daySlots = data[iso] || [];
+        const times = daySlots.map((s) => ({
+          label: toLocalTimeLabel(s.startsAt),
+          startsAt: s.startsAt,
+          endsAt: s.endsAt,
+        }));
+        setAvailableTimes(times);
+      } catch {
+        setAvailableTimes([]);
+      }
+    }
+    loadAvailability();
+  }, [values.date]);
 
   useEffect(() => {
     const form = formRef.current;
@@ -96,15 +119,24 @@ function CallbackForm({ toggleForm, isFormOpen }) {
 
     if (validateForm()) {
       try {
-        const success = await sendFormToTelegram(values, "callback");
-
-        if (success) {
-          resetForm();
-          toggleForm();
-          setShowSuccessPopup(true);
-        } else {
-          alert("Произошла ошибка при отправке формы. Попробуйте позже.");
+        const isoDate = toISODate(values.date);
+        const chosen = availableTimes.find((t) => t.label === values.time);
+        if (!isoDate || !chosen) {
+          alert("Выберите доступные дату и время");
+          return;
         }
+        await apiPublicCreateAppointment({
+          fullName: values.name,
+          phone: values.phone,
+          note: "",
+          startsAt: chosen.startsAt,
+          endsAt: chosen.endsAt,
+        });
+        // Optional: still send Telegram notification (ignore failures)
+        await sendFormToTelegram(values, "callback").catch(() => {});
+        resetForm();
+        toggleForm();
+        setShowSuccessPopup(true);
       } catch (error) {
         console.error(
           "❌ CallbackForm: Критическая ошибка при отправке:",
@@ -116,21 +148,24 @@ function CallbackForm({ toggleForm, isFormOpen }) {
   }
 
   function generateTimeOptions() {
-    const times = [];
-    let currentTime = new Date();
-    currentTime.setHours(9, 0, 0); // Начальное время 9:00
+    return availableTimes.map((t) => t.label);
+  }
 
-    while (
-      currentTime.getHours() < 19 ||
-      (currentTime.getHours() === 19 && currentTime.getMinutes() === 0)
-    ) {
-      const hours = currentTime.getHours().toString().padStart(2, "0");
-      const minutes = currentTime.getMinutes().toString().padStart(2, "0");
-      times.push(`${hours}:${minutes}`);
-      currentTime.setMinutes(currentTime.getMinutes() + 60);
-    }
+  function toISODate(masked) {
+    // try dd.mm.yyyy -> yyyy-mm-dd
+    if (!masked) return "";
+    const m = masked.match(/(\d{2})[./-](\d{2})[./-](\d{4})/);
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+    // try yyyy-mm-dd already
+    if (/^\d{4}-\d{2}-\d{2}$/.test(masked)) return masked;
+    return "";
+  }
 
-    return times;
+  function toLocalTimeLabel(isoString) {
+    const d = new Date(isoString);
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mm = String(d.getMinutes()).padStart(2, "0");
+    return `${hh}:${mm}`;
   }
 
   return (
