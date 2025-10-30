@@ -52,7 +52,7 @@ function NavBar() {
                 to="/symptoms"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
-                Симптомы
+                Лечение
               </NavLink>
             </div>
             <div className="nav-link">

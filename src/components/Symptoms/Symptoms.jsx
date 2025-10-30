@@ -94,7 +94,7 @@ function Symptoms({ toggleForm }) {
 
         <div className="symptoms-contact">
           <p>Не откладывайте на потом -</p>
-          <button onClick={toggleForm} class="symptoms-contact-button">
+          <button onClick={toggleForm} className="symptoms-contact-button">
             Записывайтесь на приём
           </button>
         </div>
