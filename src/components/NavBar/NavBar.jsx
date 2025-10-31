@@ -12,7 +12,7 @@ function NavBar() {
       <nav className="navbar">
         <div id="navbar" className="colapsed-container">
           <div className="navbar-brand">
-            <NavLink to="/" end>
+            <NavLink to="/admin" end>
               <img
                 src={logo}
                 width="70"

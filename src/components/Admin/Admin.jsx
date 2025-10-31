@@ -123,12 +123,15 @@ function Appointments() {
       return false;
     }
     // Compute today's date in Europe/Moscow as YYYY-MM-DD to avoid UTC/local mismatches
-    const parts = new Intl.DateTimeFormat('ru-RU', {
-      year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'Europe/Moscow'
+    const parts = new Intl.DateTimeFormat("ru-RU", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "Europe/Moscow",
     }).formatToParts(new Date());
-    const y = parts.find(p => p.type === 'year')?.value;
-    const m = parts.find(p => p.type === 'month')?.value;
-    const d = parts.find(p => p.type === 'day')?.value;
+    const y = parts.find((p) => p.type === "year")?.value;
+    const m = parts.find((p) => p.type === "month")?.value;
+    const d = parts.find((p) => p.type === "day")?.value;
     const todayYMD = `${y}-${m}-${d}`;
     if (iso < todayYMD) {
       setErrDate("Дата не может быть в прошлом");
@@ -222,10 +225,23 @@ function Appointments() {
       const [sh, sm] = start.split(":").map(Number);
       const isoDate = toISODate(date);
       // Build time as Moscow (+03:00) and store as UTC ISO
-      const startLocal = new Date(`${isoDate}T${String(sh).padStart(2, "0")}:${String(sm).padStart(2, "0")}:00+03:00`);
+      const startLocal = new Date(
+        `${isoDate}T${String(sh).padStart(2, "0")}:${String(sm).padStart(
+          2,
+          "0"
+        )}:00+03:00`
+      );
       const startsAt = startLocal.toISOString();
-      const endsAt = new Date(startLocal.getTime() + duration * 60000).toISOString();
-      await apiCreateAppointment({ fullName, phone, note: "", startsAt, endsAt });
+      const endsAt = new Date(
+        startLocal.getTime() + duration * 60000
+      ).toISOString();
+      await apiCreateAppointment({
+        fullName,
+        phone,
+        note: "",
+        startsAt,
+        endsAt,
+      });
       setFullName("");
       setPhone("");
     } finally {
@@ -272,13 +288,12 @@ function Appointments() {
     <div className="admin-card">
       <div className="admin-header">
         <h2 className="admin-title">Записи</h2>
-        <button className="btn" onClick={logout}>
-          Выйти
-        </button>
       </div>
       <form className="admin-grid" onSubmit={handleCreate} noValidate>
         <div>
-          <label className="muted" htmlFor="adminNameInput">ФИО</label>
+          <label className="muted" htmlFor="adminNameInput">
+            ФИО
+          </label>
           <input
             id="adminNameInput"
             className="input"
@@ -294,10 +309,18 @@ function Appointments() {
           <div className="error-slot">{errName}</div>
         </div>
         <div>
-          <label className="muted" htmlFor="adminPhoneInput">Телефон</label>
+          <label className="muted" htmlFor="adminPhoneInput">
+            Телефон
+          </label>
           <IMaskInput
             id="adminPhoneInput"
-            className={`input ${(!phone || phone.includes('_') || !/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/.test(phone)) ? 'masked' : ''}`}
+            className={`input ${
+              !phone ||
+              phone.includes("_") ||
+              !/^\+7\s\(\d{3}\)\s\d{3}-\d{2}-\d{2}$/.test(phone)
+                ? "masked"
+                : ""
+            }`}
             placeholder="+7 (___) ___-__-__"
             mask={"+7 (000) 000-00-00"}
             unmask={false}
@@ -310,11 +333,15 @@ function Appointments() {
           <div className="error-slot">{errPhone}</div>
         </div>
         <div>
-          <label className="muted" htmlFor="adminDateInput">Дата</label>
+          <label className="muted" htmlFor="adminDateInput">
+            Дата
+          </label>
           <IMaskInput
             id="adminDateInput"
             ref={dateInputRef}
-            className={`input ${(!date || date.includes('_') || date.length < 10) ? 'masked' : ''}`}
+            className={`input ${
+              !date || date.includes("_") || date.length < 10 ? "masked" : ""
+            }`}
             placeholder="ДД.ММ.ГГГГ"
             mask={Date}
             lazy={false}
@@ -332,7 +359,9 @@ function Appointments() {
           <div className="error-slot">{errDate}</div>
         </div>
         <div>
-          <label className="muted" htmlFor="adminTimeInput">Время начала</label>
+          <label className="muted" htmlFor="adminTimeInput">
+            Время начала
+          </label>
           <input
             className="input"
             type="time"
@@ -342,9 +371,11 @@ function Appointments() {
           />
           <div className="error-slot">{errTime}</div>
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div>
           <div>
-            <label className="muted" htmlFor="adminIntervalInput">Длительность</label>
+            <label className="muted" htmlFor="adminIntervalInput">
+              Длительность
+            </label>
             <div className="number-input-wrapper">
               <div className="number-input-field">
                 <input
@@ -369,20 +400,29 @@ function Appointments() {
                     setDurationInput(noLeading);
                     const val = Number(noLeading);
                     setDuration(val);
-                    if (!Number.isFinite(val) || val < 5) setErrDuration("Минимальная длительность 5 минут");
-                    else if (val > 180) setErrDuration("Длительность не может быть больше 180 минут");
+                    if (!Number.isFinite(val) || val < 5)
+                      setErrDuration("Минимальная длительность 5 минут");
+                    else if (val > 180)
+                      setErrDuration(
+                        "Длительность не может быть больше 180 минут"
+                      );
                     else setErrDuration("");
                   }}
-                  style={{ width: '100%' }}
                 />
                 <button
                   type="button"
                   className="spinner-btn spinner-btn-up"
                   onClick={() => {
-                    const next = Math.min(300, (Number.isFinite(duration) ? duration : 0) + 5);
+                    const next = Math.min(
+                      300,
+                      (Number.isFinite(duration) ? duration : 0) + 5
+                    );
                     setDuration(next);
                     setDurationInput(String(next));
-                    if (next > 180) setErrDuration("Длительность не может быть больше 180 минут");
+                    if (next > 180)
+                      setErrDuration(
+                        "Длительность не может быть больше 180 минут"
+                      );
                     else setErrDuration("");
                   }}
                 />
@@ -394,7 +434,8 @@ function Appointments() {
                     const next = Math.max(5, base - 5);
                     setDuration(next);
                     setDurationInput(String(next));
-                    if (next < 5) setErrDuration("Минимальная длительность 5 минут");
+                    if (next < 5)
+                      setErrDuration("Минимальная длительность 5 минут");
                     else setErrDuration("");
                   }}
                 />
@@ -402,12 +443,18 @@ function Appointments() {
               <div className="error-slot">{errDuration}</div>
             </div>
           </div>
-          <div>
-            <label className="muted" style={{ visibility: 'hidden' }}>&nbsp;</label>
-            <button className="btn btn-primary" type="submit" style={{ height: 40, width: '100%' }}>
-              Добавить
-            </button>
-          </div>
+        </div>
+        <div>
+          <label className="muted" style={{ visibility: "hidden" }}>
+            &nbsp;
+          </label>
+          <button
+            className="btn btn-primary"
+            type="submit"
+            style={{ height: 40, width: "100%" }}
+          >
+            Добавить
+          </button>
         </div>
       </form>
       {loading ? (
@@ -425,16 +472,24 @@ function Appointments() {
           </thead>
           <tbody>
             {items.map((it) => {
-              const fmt = new Intl.DateTimeFormat('ru-RU', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Moscow' });
-              const startsStr = it.startsAt ? fmt.format(new Date(it.startsAt)) : '';
-              const createdStr = it.createdAt ? fmt.format(new Date(it.createdAt)) : '';
+              const fmt = new Intl.DateTimeFormat("ru-RU", {
+                dateStyle: "short",
+                timeStyle: "short",
+                timeZone: "Europe/Moscow",
+              });
+              const startsStr = it.startsAt
+                ? fmt.format(new Date(it.startsAt))
+                : "";
+              const createdStr = it.createdAt
+                ? fmt.format(new Date(it.createdAt))
+                : "";
               return (
                 <tr key={it._id}>
-                  <td>{it.fullName}</td>
-                  <td>{it.phone}</td>
-                  <td>{startsStr}</td>
-                  <td>{createdStr}</td>
-                  <td>
+                  <td data-label="ФИО">{it.fullName}</td>
+                  <td data-label="Телефон">{it.phone}</td>
+                  <td data-label="Начало">{startsStr}</td>
+                  <td data-label="Создано">{createdStr}</td>
+                  <td data-label="Действие">
                     <button
                       className="btn btn-danger"
                       onClick={() => askDelete(it._id)}
@@ -453,14 +508,23 @@ function Appointments() {
         <div className="modal-backdrop" onClick={cancelDelete}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-title">Подтверждение</div>
-            <div className="modal-body">Удалить запись? Это действие необратимо.</div>
+            <div className="modal-body">
+              Удалить запись? Это действие необратимо.
+            </div>
             <div className="modal-actions">
-              <button className="btn" onClick={cancelDelete}>Отмена</button>
-              <button className="btn btn-danger" onClick={confirmDelete}>Удалить</button>
+              <button className="btn" onClick={cancelDelete}>
+                Отмена
+              </button>
+              <button className="btn btn-danger" onClick={confirmDelete}>
+                Удалить
+              </button>
             </div>
           </div>
         </div>
       )}
+      <button className="btn" onClick={logout}>
+        Выйти
+      </button>
     </div>
   );
 }
@@ -468,8 +532,18 @@ function Appointments() {
 function CalendarView() {
   const [items, setItems] = useState([]);
   const [weekStart, setWeekStart] = useState(() => getWeekStart(new Date()));
-  const fmtDay = new Intl.DateTimeFormat('ru-RU', { weekday: 'short', day: '2-digit', month: '2-digit', timeZone: 'Europe/Moscow' });
-  const fmtTime = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Moscow' });
+  const fmtDay = new Intl.DateTimeFormat("ru-RU", {
+    weekday: "short",
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: "Europe/Moscow",
+  });
+  const fmtTime = new Intl.DateTimeFormat("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Europe/Moscow",
+  });
 
   useEffect(() => {
     (async () => {
@@ -488,7 +562,8 @@ function CalendarView() {
       if (!out.has(key)) out.set(key, []);
       out.get(key).push(it);
     }
-    for (const v of out.values()) v.sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
+    for (const v of out.values())
+      v.sort((a, b) => new Date(a.startsAt) - new Date(b.startsAt));
     return out;
   }
 
@@ -498,10 +573,25 @@ function CalendarView() {
     <div className="admin-card">
       <div className="admin-header">
         <h2 className="admin-title">Календарь (неделя)</h2>
-        <div style={{ display:'flex', gap:8 }}>
-          <button className="btn" onClick={() => setWeekStart(addDays(weekStart, -7))}>←</button>
-          <button className="btn" onClick={() => setWeekStart(getWeekStart(new Date()))}>Сегодня</button>
-          <button className="btn" onClick={() => setWeekStart(addDays(weekStart, 7))}>→</button>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button
+            className="btn"
+            onClick={() => setWeekStart(addDays(weekStart, -7))}
+          >
+            ←
+          </button>
+          <button
+            className="btn"
+            onClick={() => setWeekStart(getWeekStart(new Date()))}
+          >
+            Сегодня
+          </button>
+          <button
+            className="btn"
+            onClick={() => setWeekStart(addDays(weekStart, 7))}
+          >
+            →
+          </button>
         </div>
       </div>
       <div className="calendar-grid">
@@ -517,8 +607,12 @@ function CalendarView() {
                 ) : (
                   list.map((it) => (
                     <div key={it._id} className="event-card">
-                      <div className="event-time">{fmtTime.format(new Date(it.startsAt))}</div>
-                      <div className="event-name" title={it.fullName}>{it.fullName}</div>
+                      <div className="event-time">
+                        {fmtTime.format(new Date(it.startsAt))}
+                      </div>
+                      <div className="event-name" title={it.fullName}>
+                        {it.fullName}
+                      </div>
                       <div className="event-phone">{it.phone}</div>
                     </div>
                   ))
@@ -537,7 +631,7 @@ function getWeekStart(d) {
   // start week on Monday in Moscow
   const day = (ms.getUTCDay() + 6) % 7; // 0..6
   ms.setUTCDate(ms.getUTCDate() - day);
-  ms.setUTCHours(0,0,0,0);
+  ms.setUTCHours(0, 0, 0, 0);
   return ms;
 }
 function addDays(d, n) {
@@ -547,15 +641,23 @@ function addDays(d, n) {
 }
 function toYMDInMoscow(d) {
   // format YYYY-MM-DD in Moscow timezone
-  const year = new Intl.DateTimeFormat('ru-RU', { year: 'numeric', timeZone: 'Europe/Moscow' }).format(d);
-  const month = new Intl.DateTimeFormat('ru-RU', { month: '2-digit', timeZone: 'Europe/Moscow' }).format(d);
-  const day = new Intl.DateTimeFormat('ru-RU', { day: '2-digit', timeZone: 'Europe/Moscow' }).format(d);
+  const year = new Intl.DateTimeFormat("ru-RU", {
+    year: "numeric",
+    timeZone: "Europe/Moscow",
+  }).format(d);
+  const month = new Intl.DateTimeFormat("ru-RU", {
+    month: "2-digit",
+    timeZone: "Europe/Moscow",
+  }).format(d);
+  const day = new Intl.DateTimeFormat("ru-RU", {
+    day: "2-digit",
+    timeZone: "Europe/Moscow",
+  }).format(d);
   return `${year}-${month}-${day}`;
 }
 
 function ScheduleEditor() {
   const [loading, setLoading] = useState(true);
-  const [timezone, setTimezone] = useState("Europe/Moscow");
   const [days, setDays] = useState(() =>
     Array.from({ length: 7 }, (_, i) => ({ weekday: i, slots: [] }))
   );
@@ -566,7 +668,6 @@ function ScheduleEditor() {
     (async () => {
       try {
         const s = await apiGetSchedule();
-        setTimezone(s?.timezone || "Europe/Moscow");
         // merge existing days into 0..6 template
         const byWeekday = new Map((s?.days || []).map((d) => [d.weekday, d]));
         setDays(
@@ -640,7 +741,7 @@ function ScheduleEditor() {
   async function save() {
     setLoading(true);
     try {
-      await apiSaveSchedule({ timezone, days, overrides });
+      await apiSaveSchedule({ timezone: "Europe/Moscow", days, overrides });
       alert("Сохранено");
     } catch {
       alert("Ошибка сохранения");
@@ -652,80 +753,169 @@ function ScheduleEditor() {
   if (loading) return <div className="admin-card">Загрузка...</div>;
 
   return (
-    <div className="admin-card" style={{ display: "grid", gap: 16 }}>
-      <div className="admin-form">
-        <label className="muted">Часовой пояс</label>
-        <input
-          className="input"
-          value={timezone}
-          onChange={(e) => setTimezone(e.target.value)}
-        />
-      </div>
-      {days.map((d) => (
-        <div key={d.weekday} className="admin-card" style={{ padding: 12 }}>
-          <div className="admin-header">
-            <strong>{labels[d.weekday]}</strong>
-            <button className="btn" onClick={() => addSlot(d.weekday)}>
-              + слот
-            </button>
+    <div style={{ display: "grid", gap: 20 }}>
+      {[1, 2, 3, 4, 5, 6, 0].map((weekday) => {
+        const d = days.find((x) => x.weekday === weekday) || {
+          weekday,
+          slots: [],
+        };
+        return (
+          <div key={weekday} className="schedule-day-card">
+            <div className="schedule-day-header">
+              <h3 className="schedule-day-title">{labels[d.weekday]}</h3>
+              <button
+                className="btn btn-primary schedule-add-btn"
+                onClick={() => addSlot(d.weekday)}
+                type="button"
+              >
+                + Добавить слот
+              </button>
+            </div>
+            {d.slots.length === 0 ? (
+              <div className="schedule-empty">
+                Нет слотов. Нажмите "+ Добавить слот" чтобы создать.
+              </div>
+            ) : (
+              <div className="schedule-slots">
+                {d.slots.map((s, idx) => (
+                  <div key={idx} className="schedule-slot-card">
+                    <button
+                      className="schedule-slot-remove"
+                      onClick={() => removeSlot(d.weekday, idx)}
+                      type="button"
+                      aria-label="Удалить слот"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                    <div className="slot-fields-row">
+                      <div className="slot-field">
+                        <label className="slot-label">С</label>
+                        <input
+                          className="input schedule-time-input"
+                          type="time"
+                          value={minutesToHHMM(s.startMinute)}
+                          onChange={(e) =>
+                            updateSlot(
+                              d.weekday,
+                              idx,
+                              "startTime",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="slot-field">
+                        <label className="slot-label">до</label>
+                        <input
+                          className="input schedule-time-input"
+                          type="time"
+                          value={minutesToHHMM(s.endMinute)}
+                          onChange={(e) =>
+                            updateSlot(
+                              d.weekday,
+                              idx,
+                              "endTime",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                      <div className="slot-field">
+                        <label className="slot-label">длит. (мин)</label>
+                        <div className="number-input-field">
+                          <input
+                            className="input"
+                            type="text"
+                            value={String(s.durationMinutes)}
+                            onChange={(e) => {
+                              const raw = e.target.value;
+                              if (raw === "") {
+                                updateSlot(
+                                  d.weekday,
+                                  idx,
+                                  "durationMinutes",
+                                  0
+                                );
+                                return;
+                              }
+                              const noLeading = raw.replace(/^0+(?=\d)/, "");
+                              const val = Number(noLeading);
+                              if (!isNaN(val)) {
+                                updateSlot(
+                                  d.weekday,
+                                  idx,
+                                  "durationMinutes",
+                                  val
+                                );
+                              }
+                            }}
+                            onBlur={() => {
+                              if (s.durationMinutes < 5) {
+                                updateSlot(
+                                  d.weekday,
+                                  idx,
+                                  "durationMinutes",
+                                  5
+                                );
+                              } else if (s.durationMinutes > 180) {
+                                updateSlot(
+                                  d.weekday,
+                                  idx,
+                                  "durationMinutes",
+                                  180
+                                );
+                              }
+                            }}
+                          />
+                          <button
+                            type="button"
+                            className="spinner-btn spinner-btn-up"
+                            onClick={() => {
+                              const next = Math.min(180, s.durationMinutes + 5);
+                              updateSlot(
+                                d.weekday,
+                                idx,
+                                "durationMinutes",
+                                next
+                              );
+                            }}
+                          />
+                          <button
+                            type="button"
+                            className="spinner-btn spinner-btn-down"
+                            onClick={() => {
+                              const next = Math.max(5, s.durationMinutes - 5);
+                              updateSlot(
+                                d.weekday,
+                                idx,
+                                "durationMinutes",
+                                next
+                              );
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-          {d.slots.length === 0 ? (
-            <div className="muted" style={{ marginTop: 8 }}>
-              Нет слотов
-            </div>
-          ) : (
-            <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
-              {d.slots.map((s, idx) => (
-                <div key={idx} className="slot-row">
-                  <label className="muted">С</label>
-                  <input
-                    className="input"
-                    type="time"
-                    value={minutesToHHMM(s.startMinute)}
-                    onChange={(e) =>
-                      updateSlot(d.weekday, idx, "startTime", e.target.value)
-                    }
-                  />
-                  <label className="muted">до</label>
-                  <input
-                    className="input"
-                    type="time"
-                    value={minutesToHHMM(s.endMinute)}
-                    onChange={(e) =>
-                      updateSlot(d.weekday, idx, "endTime", e.target.value)
-                    }
-                  />
-                  <label className="muted">длит. (мин)</label>
-                  <input
-                    className="input"
-                    type="number"
-                    min={5}
-                    step={5}
-                    value={s.durationMinutes}
-                    onChange={(e) =>
-                      updateSlot(
-                        d.weekday,
-                        idx,
-                        "durationMinutes",
-                        e.target.value
-                      )
-                    }
-                  />
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => removeSlot(d.weekday, idx)}
-                  >
-                    -
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      ))}
-      <div>
-        <button className="btn btn-primary" onClick={save}>
-          Сохранить
+        );
+      })}
+      <div className="schedule-save-section">
+        <button className="btn btn-primary schedule-save-btn" onClick={save}>
+          Сохранить расписание
         </button>
       </div>
     </div>

@@ -124,10 +124,15 @@ function CallbackForm({ toggleForm, isFormOpen }) {
           endsAt: chosen.endsAt,
         });
         // Optional: still send Telegram notification (ignore failures)
-        await sendFormToTelegram(values, "callback").catch(() => {});
+        const telegramSent = await sendFormToTelegram(values, "callback").catch(() => false);
         resetForm();
         toggleForm();
         setShowSuccessPopup(true);
+        
+        // Если Telegram не отправился, предупреждаем (но не блокируем успешное завершение)
+        if (!telegramSent) {
+          console.warn("⚠️ Запись создана, но уведомление в Telegram не отправлено");
+        }
       } catch (error) {
         console.error(
           "❌ CallbackForm: Критическая ошибка при отправке:",

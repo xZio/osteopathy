@@ -18,7 +18,9 @@ notificationsRouter.post('/telegram', async (req, res) => {
       body: JSON.stringify({ chat_id: config.telegramChatId, text, parse_mode: 'HTML' }),
     });
     if (!tgRes.ok) {
-      return res.status(502).json({ error: 'telegram_failed' });
+      const errorBody = await tgRes.text().catch(() => 'unknown error');
+      console.error(`❌ Telegram API error: ${tgRes.status} - ${errorBody}`);
+      return res.status(502).json({ error: 'telegram_failed', status: tgRes.status });
     }
     res.status(204).end();
   } catch {

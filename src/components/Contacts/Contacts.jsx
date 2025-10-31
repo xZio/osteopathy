@@ -88,10 +88,15 @@ function Contacts() {
         });
 
         // Дополнительно пытаемся отправить уведомление в Telegram (не блокируем пользователя)
-        await sendFormToTelegram(values, "contacts").catch(() => {});
+        const telegramSent = await sendFormToTelegram(values, "contacts").catch(() => false);
         
         resetForm();
         setShowSuccessPopup(true);
+        
+        // Если Telegram не отправился, предупреждаем (но не блокируем успешное завершение)
+        if (!telegramSent) {
+          console.warn("⚠️ Запись создана, но уведомление в Telegram не отправлено");
+        }
       } catch (error) {
         console.error("❌ Критическая ошибка при отправке:", error);
         alert("Произошла критическая ошибка при отправке формы.");
