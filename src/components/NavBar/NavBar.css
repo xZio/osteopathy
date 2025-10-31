@@ -159,21 +159,32 @@
 
   /* Hide horizontal menu when burger button appears */
   .navbar-collapse {
-  
     display: flex;
     flex-direction: column;
     background-color: rgba(19, 56, 72, 0.9);
     opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, height 0.3s ease;
-    height: 0;
-    
+
+    transform: translateY(-8px);
+    transition: max-height 0.3s ease-in-out, opacity 0.35s ease-in-out,
+      transform 0.35s ease-in-out;
+    max-height: 0; /* use max-height for smoother slide */
+    /* keep hidden in both states for smooth close */
+    pointer-events: none; /* disable interactions when hidden */
+    will-change: max-height, transform, opacity;
+  }
+
+  /* also block events on children when hidden */
+  .navbar-collapse:not(.show) .navbar-nav {
+    pointer-events: none;
   }
 
   .navbar-collapse.show {
     opacity: 1;
     transform: translateY(0);
-    height: 500px;
+    max-height: 80vh; /* large enough to fit content */
+    pointer-events: auto; /* re-enable interactions when shown */
+    transition: max-height 1s ease-in-out, opacity 0.1s ease-in-out,
+      transform 0.35s ease-in-out;
   }
 
   .navbar-brand {

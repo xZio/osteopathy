@@ -9,7 +9,10 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import { sendFormToTelegram } from "../../utils/telegramSender";
-import { apiGetAvailability, apiPublicCreateAppointment } from "../../utils/api";
+import {
+  apiGetAvailability,
+  apiPublicCreateAppointment,
+} from "../../utils/api";
 
 function CallbackForm({ toggleForm, isFormOpen }) {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -102,18 +105,6 @@ function CallbackForm({ toggleForm, isFormOpen }) {
     }
   });
 
-  /*  function handleAccept(value, data) {
-    setValues((prev) => ({
-      ...prev,
-      [data.el.input.name]: value,
-    }));
-  } */
-
-  /*  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  } */
-
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -163,9 +154,8 @@ function CallbackForm({ toggleForm, isFormOpen }) {
 
   function toLocalTimeLabel(isoString) {
     const d = new Date(isoString);
-    const hh = String(d.getHours()).padStart(2, "0");
-    const mm = String(d.getMinutes()).padStart(2, "0");
-    return `${hh}:${mm}`;
+    const fmt = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Moscow' });
+    return fmt.format(d);
   }
 
   return (
@@ -185,7 +175,7 @@ function CallbackForm({ toggleForm, isFormOpen }) {
           ×
         </button>
         <div className="form-group">
-        <h2>Заказать обратный звонок</h2>
+          <h2>Заказать обратный звонок</h2>
           <span className="input-span">Имя:</span>
           <input
             type="text"

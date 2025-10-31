@@ -10,6 +10,7 @@ import { requireAuth } from './middleware/auth.js';
 import { appointmentsRouter } from './routes/appointments.js';
 import { scheduleRouter } from './routes/schedule.js';
 import { publicRouter } from './routes/public.js';
+import { notificationsRouter } from './routes/notifications.js';
 
 const app = express();
 const port = config.port;
@@ -42,6 +43,7 @@ async function start() {
     app.use('/appointments', appointmentsRouter);
     app.use('/schedule', scheduleRouter);
     app.use('/public', publicLimiter, publicRouter);
+    app.use('/notifications', publicLimiter, notificationsRouter);
 
     // Example protected route placeholder
     app.get('/admin/ping', requireAuth, (_req, res) => {

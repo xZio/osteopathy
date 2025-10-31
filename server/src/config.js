@@ -13,6 +13,8 @@ export const config = Object.freeze({
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 100),
   loginRateLimitWindowMs: Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS || 10 * 60 * 1000),
   loginRateLimitMax: Number(process.env.LOGIN_RATE_LIMIT_MAX || 10),
+  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || '',
+  telegramChatId: process.env.TELEGRAM_CHAT_ID || '',
 });
 
 export function assertConfig() {

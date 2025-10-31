@@ -12,9 +12,11 @@ import { IMaskInput } from "react-imask";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 import SuccessPopup from "../SuccessPopup/SuccessPopup";
 import { sendFormToTelegram } from "../../utils/telegramSender";
+import { apiGetAvailability, apiPublicCreateAppointment } from "../../utils/api";
 
 function Contacts() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState([]);
   
   const {
     values,
@@ -43,19 +45,53 @@ function Contacts() {
     });
   }, [setValues, values]);
 
+  // Подгружаем доступные слоты при смене даты
+  useEffect(() => {
+    async function loadAvailability() {
+      try {
+        const iso = toISODate(values.date);
+        if (!iso) return;
+        const data = await apiGetAvailability(iso, iso);
+        const day = data[iso] || [];
+        const times = day.map((s) => ({
+          label: toLocalTimeLabel(s.startsAt),
+          startsAt: s.startsAt,
+          endsAt: s.endsAt,
+        }));
+        setAvailableTimes(times);
+      } catch {
+        setAvailableTimes([]);
+      }
+    }
+    loadAvailability();
+  }, [values.date]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     
     if (validateForm()) {
       try {
-        const success = await sendFormToTelegram(values, "contacts");
-        
-        if (success) {
-          resetForm();
-          setShowSuccessPopup(true);
-        } else {
-          alert("Произошла ошибка при отправке формы. Попробуйте позже.");
+        const isoDate = toISODate(values.date);
+        const chosen = availableTimes.find((t) => t.label === values.time);
+        if (!isoDate || !chosen) {
+          alert("Выберите доступные дату и время");
+          return;
         }
+
+        // Создаём запись через публичный эндпоинт
+        await apiPublicCreateAppointment({
+          fullName: values.name,
+          phone: values.phone,
+          note: "",
+          startsAt: chosen.startsAt,
+          endsAt: chosen.endsAt,
+        });
+
+        // Дополнительно пытаемся отправить уведомление в Telegram (не блокируем пользователя)
+        await sendFormToTelegram(values, "contacts").catch(() => {});
+        
+        resetForm();
+        setShowSuccessPopup(true);
       } catch (error) {
         console.error("❌ Критическая ошибка при отправке:", error);
         alert("Произошла критическая ошибка при отправке формы.");
@@ -64,21 +100,22 @@ function Contacts() {
   }
 
   function generateTimeOptions() {
-    const times = [];
-    let currentTime = new Date();
-    currentTime.setHours(9, 0, 0); // Начальное время 9:00
+    // показываем именно доступные времена из бэкенда
+    return availableTimes.map((t) => t.label);
+  }
 
-    while (
-      currentTime.getHours() < 19 ||
-      (currentTime.getHours() === 19 && currentTime.getMinutes() === 0)
-    ) {
-      const hours = currentTime.getHours().toString().padStart(2, "0");
-      const minutes = currentTime.getMinutes().toString().padStart(2, "0");
-      times.push(`${hours}:${minutes}`);
-      currentTime.setMinutes(currentTime.getMinutes() + 60);
-    }
+  function toISODate(masked) {
+    if (!masked) return "";
+    const m = masked.match(/(\d{2})[./-](\d{2})[./-](\d{4})/);
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(masked)) return masked;
+    return "";
+  }
 
-    return times;
+  function toLocalTimeLabel(isoString) {
+    const d = new Date(isoString);
+    const fmt = new Intl.DateTimeFormat('ru-RU', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Moscow' });
+    return fmt.format(d);
   }
 
   return (

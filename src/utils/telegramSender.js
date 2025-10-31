@@ -2,8 +2,7 @@
  * Утилита для отправки сообщений в Telegram
  */
 
-const BOT_TOKEN = "8030184135:AAEoGjIFFX8tAEa65de-SY1Zhoz0VFWGHLs";
-const CHAT_ID = "-1003272411572";
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
 /**
  * Отправляет сообщение в Telegram канал
@@ -13,20 +12,11 @@ const CHAT_ID = "-1003272411572";
  */
 export async function sendToTelegram(message, source = "Unknown") {
   try {
-    const response = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: CHAT_ID,
-          text: message,
-          parse_mode: "HTML",
-        }),
-      }
-    );
+    const response = await fetch(`${API_BASE}/notifications/telegram`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: message }),
+    });
 
     if (response.ok) {
       return true;
