@@ -1,18 +1,72 @@
-# React + Vite
+# Osteopathy site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Environments and Variables
 
-Currently, two official plugins are available:
+Frontend (.env at project root)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `VITE_API_URL` — backend base URL (e.g. `http://localhost:4000` or Railway backend URL)
+- `VITE_BASENAME` — optional, base path for router (not needed for Railway; for GitHub Pages use `/osteopathy`)
 
-## React Compiler
+Backend (`server/.env`)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- `PORT` — default `4000`
+- `MONGODB_URI` — Mongo connection string
+- `JWT_SECRET` — strong random secret
+- `ADMIN_USERNAME` — admin login
+- `ADMIN_PASSWORD_HASH` — bcrypt hash (`cd server && npm run hash -- yourPassword`)
+- `CORS_ORIGIN` — frontend URL(s), comma-separated, without trailing slash
+- `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX` — public rate limit window/max
+- `LOGIN_RATE_LIMIT_WINDOW_MS` / `LOGIN_RATE_LIMIT_MAX` — login rate limit
 
-Note: This will impact Vite dev & build performances.
+## Local Development
 
-## Expanding the ESLint configuration
+1. Backend
+   - `cd server`
+   - Create `server/.env` (use `server/ENV.example`)
+   - `npm install`
+   - `npm run dev`
+   - Health: `http://localhost:4000/health`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Frontend
+   - Create `.env` at repo root (optional):
+     ```
+     VITE_API_URL=http://localhost:4000
+     ```
+   - `npm install`
+   - `npm run dev`
+   - Open dev URL from Vite
+
+## Deploy to Railway (one repo → 3 services)
+
+1) Create Project → Deploy from GitHub
+
+2) Add Database → MongoDB
+   - Copy connection string from DB service variables (e.g. `MONGODB_URL`)
+
+3) Add Backend (Node.js)
+   - Root Directory: `server`
+   - Build: `npm ci --omit=dev`
+   - Start: `npm run start`
+   - Variables: set
+     - `MONGODB_URI` — from DB service
+     - `JWT_SECRET`, `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`
+     - `CORS_ORIGIN` — later set to frontend public URL (no trailing slash)
+   - Expose service → Generate domain → test `/health`
+
+4) Add Frontend (Static Site)
+   - Root Directory: project root
+   - Build: `npm ci && npm run build`
+   - Output: `dist`
+   - Variables: set
+     - `VITE_API_URL` — backend public URL
+   - Deploy → copy frontend URL
+
+5) Finalize CORS
+   - Backend → `CORS_ORIGIN` = frontend URL (no trailing slash)
+   - Redeploy backend
+
+## Admin
+
+- Admin page: `/admin`
+- Login: `ADMIN_USERNAME` + password used to generate `ADMIN_PASSWORD_HASH`
+- Manage appointments and schedule
