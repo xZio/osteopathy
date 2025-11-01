@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import About from "../About/About";
 import Symptoms from "../Symptoms/Symptoms";
 import Header from "../Header/Header";
@@ -17,9 +17,12 @@ function App() {
     setIsFormOpen(!isFormOpen);
   };
 
+  const location = useLocation();
+  const isAdminPage = location.pathname === "/admin" || location.pathname.startsWith("/admin/");
+
   return (
     <div className="app">
-      <Header toggleForm={toggleForm} isFormOpen={isFormOpen} />
+      {!isAdminPage && <Header toggleForm={toggleForm} isFormOpen={isFormOpen} />}
       <Routes>
         <Route index element={<About />} />
         <Route path="symptoms" element={<Symptoms toggleForm={toggleForm}/>} />
@@ -28,7 +31,7 @@ function App() {
         <Route path="prices" element={<Prices toggleForm={toggleForm} />} />
         <Route path="admin" element={<Admin />} />
       </Routes>
-      <Footer />
+      {!isAdminPage && <Footer />}
     </div>
   );
 }

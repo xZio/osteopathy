@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const dayScheduleSchema = new mongoose.Schema(
   {
@@ -17,7 +17,6 @@ const dayScheduleSchema = new mongoose.Schema(
 
 const scheduleSchema = new mongoose.Schema(
   {
-    timezone: { type: String, default: 'Europe/Moscow' },
     days: { type: [dayScheduleSchema], default: [] },
     overrides: {
       type: [
@@ -34,6 +33,4 @@ const scheduleSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const Schedule = mongoose.model('Schedule', scheduleSchema);
-
-
+export const Schedule = mongoose.model("Schedule", scheduleSchema);

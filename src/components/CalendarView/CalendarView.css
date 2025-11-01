@@ -1,0 +1,165 @@
+/* Calendar View component - standalone styles */
+
+/* CSS Variables */
+.calendar-view-container {
+  --bg: #0f2b36;
+  --bg-soft: #133848;
+  --primary: #31babe;
+  --text: #e9f6f7;
+  --muted: #8fbfc2;
+}
+
+/* Card */
+.calendar-view-card {
+  background: var(--bg-soft);
+  border: 1px solid rgba(49, 186, 190, 0.2);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+/* Header */
+.calendar-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.calendar-view-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Buttons */
+.calendar-view-btn {
+  padding: 8px 12px;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.calendar-view-btn[disabled] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+}
+
+.calendar-col {
+  border: 1px solid rgba(49, 186, 190, 0.2);
+  border-radius: 8px;
+  background: #0b2a36;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-col-header {
+  padding: 8px 10px;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(49, 186, 190, 0.15);
+}
+
+.calendar-col-body {
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.calendar-empty {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.event-card {
+  background: #0e3341;
+  border: 1px solid rgba(49, 186, 190, 0.25);
+  border-radius: 6px;
+  padding: 8px;
+  max-width: 150px;
+}
+
+.event-time {
+  color: var(--primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.event-name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.event-phone {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.calendar-slots-info {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(49, 186, 190, 0.2);
+}
+
+.slots-header {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.calendar-slot {
+  background: rgba(49, 186, 190, 0.1);
+  border: 1px solid rgba(49, 186, 190, 0.3);
+  border-radius: 4px;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slot-duration-badge {
+  font-size: 10px;
+  color: var(--muted);
+  background: rgba(49, 186, 190, 0.15);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+
+.calendar-appointments-section {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(49, 186, 190, 0.2);
+}
+
+.appointments-header {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* Mobile styles */
+@media (max-width: 900px) {
+  .calendar-grid {
+    grid-template-columns: 1fr;
+  }
+}

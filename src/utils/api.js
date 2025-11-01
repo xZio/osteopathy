@@ -9,18 +9,31 @@ function authHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
+function handleAuthError(res) {
+  if (res.status === 401) {
+    localStorage.removeItem('admin_token');
+    window.location.reload();
+    throw new Error('Unauthorized');
+  }
+}
+
 export async function apiLogin(username, password) {
   const res = await fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username, password })
   });
-  if (!res.ok) throw new Error('Login failed');
+  if (!res.ok) {
+    const error = new Error('Login failed');
+    error.status = res.status;
+    throw error;
+  }
   return res.json();
 }
 
 export async function apiListAppointments() {
   const res = await fetch(`${API_BASE}/appointments`, { headers: { ...authHeaders() } });
+  handleAuthError(res);
   if (!res.ok) throw new Error('Failed to load appointments');
   return res.json();
 }
@@ -31,6 +44,7 @@ export async function apiCreateAppointment(payload) {
     headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(payload)
   });
+  handleAuthError(res);
   if (!res.ok) throw new Error('Failed to create appointment');
   return res.json();
 }
@@ -40,6 +54,7 @@ export async function apiDeleteAppointment(id) {
     method: 'DELETE',
     headers: { ...authHeaders() }
   });
+  handleAuthError(res);
   if (!res.ok) throw new Error('Failed to delete appointment');
 }
 
@@ -63,6 +78,7 @@ export async function apiPublicCreateAppointment(payload) {
 
 export async function apiGetSchedule() {
   const res = await fetch(`${API_BASE}/schedule`, { headers: { ...authHeaders() } });
+  handleAuthError(res);
   if (!res.ok) throw new Error('Failed to load schedule');
   return res.json();
 }
@@ -73,6 +89,7 @@ export async function apiSaveSchedule(schedule) {
     headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(schedule),
   });
+  handleAuthError(res);
   if (!res.ok) throw new Error('Failed to save schedule');
   return res.json();
 }
