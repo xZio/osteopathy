@@ -1,7 +1,7 @@
 import "./SuccessPopup.css";
 import { useEffect } from "react";
 
-function SuccessPopup({ isOpen, onClose }) {
+function SuccessPopup({ isOpen, onClose, title, message }) {
   useEffect(() => {
     if (isOpen) {
       // Закрываем попап через 3 секунды
@@ -32,9 +32,9 @@ function SuccessPopup({ isOpen, onClose }) {
             />
           </svg>
         </div>
-        <h3 className="success-popup-title">Форма успешно отправлена!</h3>
+        <h3 className="success-popup-title">{title || "Форма успешно отправлена!"}</h3>
         <p className="success-popup-message">
-          Спасибо за обращение. Мы свяжемся с вами в ближайшее время.
+          {message || "Спасибо за обращение. Мы свяжемся с вами в ближайшее время."}
         </p>
       </div>
     </div>
