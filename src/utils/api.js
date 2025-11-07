@@ -49,6 +49,17 @@ export async function apiCreateAppointment(payload) {
   return res.json();
 }
 
+export async function apiUpdateAppointment(id, payload) {
+  const res = await fetch(`${API_BASE}/appointments/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    body: JSON.stringify(payload)
+  });
+  handleAuthError(res);
+  if (!res.ok) throw new Error('Failed to update appointment');
+  return res.json();
+}
+
 export async function apiDeleteAppointment(id) {
   const res = await fetch(`${API_BASE}/appointments/${id}`, {
     method: 'DELETE',

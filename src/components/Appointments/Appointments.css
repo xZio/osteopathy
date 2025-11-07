@@ -241,14 +241,77 @@
 .appointments-table td {
   text-align: left;
   padding: 10px 8px;
+  padding-right: 0;
   border-bottom: 1px solid rgba(49, 186, 190, 0.15);
   white-space: normal;
   word-break: break-word;
+  height: 40px;
+}
+
+.appointments-table td:last-child {
+  padding-right: 8px;
 }
 
 .appointments-table th {
   color: var(--muted);
   font-weight: 500;
+}
+
+.appointments-table-row {
+  position: relative;
+}
+
+.appointments-table-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  z-index: 1;
+}
+
+.appointments-table-btn {
+  background: transparent;
+  border: 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.appointments-table-btn-edit {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.appointments-table-btn-icon {
+  display: inline-block;
+  transform: rotate(125deg);
+}
+
+.appointments-table-btn-edit:hover {
+  background: rgba(49, 186, 190, 0.1);
+  border-color: var(--primary);
+}
+
+.appointments-table-btn-delete {
+  border-color: #e57373;
+  color: #e57373;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.appointments-table-btn-delete:hover {
+  background: rgba(229, 115, 115, 0.1);
+  border-color: #e57373;
 }
 
 /* Modal */
@@ -288,12 +351,12 @@
 }
 
 /* Mobile styles */
-@media (max-width: 1360px) and (min-width: 901px) {
+/* @media (max-width: 1360px) and (min-width: 901px) {
   .appointments-table th,
   .appointments-table td {
     padding: 8px 6px;
   }
-}
+} */
 
 @media (max-width: 740px) {
   .appointments-grid {
@@ -329,7 +392,9 @@
     border: 1px solid rgba(49, 186, 190, 0.2);
     border-radius: 8px;
     padding: 10px;
+    padding-top: 40px;
     margin-bottom: 10px;
+    position: relative;
   }
 
   .appointments-table td {
@@ -338,7 +403,7 @@
     gap: 8px;
     border: none;
     padding: 6px 4px;
-  }
+    height: auto; }
 
   .appointments-table td::before {
     content: attr(data-label);
@@ -346,12 +411,12 @@
     font-size: 12px;
   }
 
-  .appointments-table td:last-child {
-    grid-template-columns: 1fr;
-  }
 
-  .appointments-table td:last-child .appointments-btn {
-    width: 100%;
+
+  .appointments-table-actions {
+    position: absolute;
+    top: 8px;
+    right: 8px;
   }
 
   .appointments-spinner-btn {

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import {
   apiListAppointments,
   apiCreateAppointment,
+  apiUpdateAppointment,
   apiDeleteAppointment,
 } from "../../utils/api";
 import { IMaskInput } from "react-imask";
@@ -27,6 +28,7 @@ function Appointments() {
 
   const [confirmId, setConfirmId] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const validateDate = useCallback((value) => {
     if (!value) {
@@ -122,15 +124,72 @@ function Appointments() {
       ok = false;
     } else setErrTime("");
 
-    if (!Number.isFinite(duration) || duration < 5) {
-      setErrDuration("Минимальная длительность 5 минут");
+    if (!Number.isFinite(duration) || duration < 10) {
+      setErrDuration("Минимальная длительность 10 минут");
       ok = false;
     } else if (duration > 180) {
       setErrDuration("Длительность не может быть больше 180 минут");
       ok = false;
+    } else if (duration % 10 !== 0) {
+      setErrDuration("Длительность должна быть кратной 10 минутам");
+      ok = false;
     } else setErrDuration("");
 
     return ok;
+  }
+
+  function startEdit(item) {
+    setEditingId(item._id);
+    setFullName(item.fullName || "");
+    setPhone(item.phone || "");
+    
+    // Format date and time from startsAt
+    if (item.startsAt) {
+      const startDate = new Date(item.startsAt);
+      const moscowDate = new Intl.DateTimeFormat("ru-RU", {
+        timeZone: "Europe/Moscow",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).formatToParts(startDate);
+      const y = moscowDate.find((p) => p.type === "year")?.value;
+      const m = moscowDate.find((p) => p.type === "month")?.value;
+      const d = moscowDate.find((p) => p.type === "day")?.value;
+      setDate(`${d}.${m}.${y}`);
+      
+      const time = new Intl.DateTimeFormat("ru-RU", {
+        timeZone: "Europe/Moscow",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(startDate);
+      setStart(time);
+    }
+    
+    // Calculate duration and round to nearest multiple of 10
+    if (item.startsAt && item.endsAt) {
+      const durationMs = new Date(item.endsAt) - new Date(item.startsAt);
+      const durationMin = Math.round(durationMs / 60000);
+      const rounded = Math.round(durationMin / 10) * 10;
+      const finalDuration = Math.max(10, Math.min(180, rounded));
+      setDuration(finalDuration);
+      setDurationInput(String(finalDuration));
+    }
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setFullName("");
+    setPhone("");
+    setDate("");
+    setStart("10:00");
+    setDuration(30);
+    setDurationInput("30");
+    setErrName("");
+    setErrPhone("");
+    setErrDate("");
+    setErrTime("");
+    setErrDuration("");
   }
 
   async function handleCreate(e) {
@@ -151,15 +210,31 @@ function Appointments() {
       const endsAt = new Date(
         startLocal.getTime() + duration * 60000
       ).toISOString();
-      await apiCreateAppointment({
-        fullName,
-        phone,
-        note: "",
-        startsAt,
-        endsAt,
-      });
-      setFullName("");
-      setPhone("");
+      
+      if (editingId) {
+        await apiUpdateAppointment(editingId, {
+          fullName,
+          phone,
+          note: "",
+          startsAt,
+          endsAt,
+        });
+        cancelEdit();
+      } else {
+        await apiCreateAppointment({
+          fullName,
+          phone,
+          note: "",
+          startsAt,
+          endsAt,
+        });
+        setFullName("");
+        setPhone("");
+        setDate("");
+        setStart("10:00");
+        setDuration(30);
+        setDurationInput("30");
+      }
     } finally {
       await load();
     }
@@ -195,18 +270,18 @@ function Appointments() {
     return masked; // fallback
   }
 
-  function logout() {
+/*   function logout() {
     localStorage.removeItem("admin_token");
     window.location.reload();
-  }
+  } */
 
   return (
     <div className="appointments-card">
       <div className="appointments-header">
         <h2 className="appointments-title">Записи</h2>
-        <button className="appointments-btn" onClick={logout}>
+      {/*   <button className="appointments-btn" onClick={logout}>
           Выйти
-        </button>
+        </button> */}
       </div>
       <form className="appointments-grid" onSubmit={handleCreate} noValidate>
         <div>
@@ -302,40 +377,48 @@ function Appointments() {
                   type="number"
                   id="adminIntervalInput"
                   min={10}
-                  step={5}
+                  max={180}
+                  step={10}
                   value={durationInput}
                   onChange={(e) => {
-                    // keep as string to avoid leading zero artifacts like 060
-                    const raw = e.target.value;
-                    // allow empty while editing
-                    if (raw === "") {
+                    const value = e.target.value;
+                    setErrDuration("");
+                    // Разрешаем ввод пустой строки и чисел для редактирования
+                    if (value === "") {
                       setDurationInput("");
-                      setDuration(NaN);
-                      setErrDuration("Минимальная длительность 5 минут");
-                      return;
+                      setDuration(0);
+                    } else {
+                      const numValue = Number(value);
+                      if (!isNaN(numValue)) {
+                        // Позволяем вводить любое число, но ограничиваем диапазон
+                        if (numValue >= 0 && numValue <= 180) {
+                          setDurationInput(value);
+                          setDuration(numValue);
+                        }
+                      }
                     }
-                    // strip leading zeros but keep single 0 if needed
-                    const noLeading = raw.replace(/^0+(?=\d)/, "");
-                    setDurationInput(noLeading);
-                    const val = Number(noLeading);
-                    setDuration(val);
-                    if (!Number.isFinite(val) || val < 5)
-                      setErrDuration("Минимальная длительность 5 минут");
-                    else if (val > 180)
-                      setErrDuration(
-                        "Длительность не может быть больше 180 минут"
-                      );
-                    else setErrDuration("");
+                  }}
+                  onBlur={(e) => {
+                    // При потере фокуса округляем до ближайшего кратного 10
+                    const value = Number(e.target.value);
+                    if (isNaN(value) || value < 10) {
+                      setDuration(10);
+                      setDurationInput("10");
+                    } else if (value > 180) {
+                      setDuration(180);
+                      setDurationInput("180");
+                    } else {
+                      const rounded = Math.round(value / 10) * 10;
+                      setDuration(rounded);
+                      setDurationInput(String(rounded));
+                    }
                   }}
                 />
                 <button
                   type="button"
                   className="appointments-spinner-btn appointments-spinner-btn-up"
                   onClick={() => {
-                    const next = Math.min(
-                      300,
-                      (Number.isFinite(duration) ? duration : 0) + 5
-                    );
+                    const next = Math.min(180, (Number.isFinite(duration) ? duration : 10) + 10);
                     setDuration(next);
                     setDurationInput(String(next));
                     if (next > 180)
@@ -349,12 +432,12 @@ function Appointments() {
                   type="button"
                   className="appointments-spinner-btn appointments-spinner-btn-down"
                   onClick={() => {
-                    const base = Number.isFinite(duration) ? duration : 0;
-                    const next = Math.max(5, base - 5);
+                    const base = Number.isFinite(duration) ? duration : 10;
+                    const next = Math.max(10, base - 10);
                     setDuration(next);
                     setDurationInput(String(next));
-                    if (next < 5)
-                      setErrDuration("Минимальная длительность 5 минут");
+                    if (next < 10)
+                      setErrDuration("Минимальная длительность 10 минут");
                     else setErrDuration("");
                   }}
                 />
@@ -375,8 +458,18 @@ function Appointments() {
             type="submit"
             style={{ height: 40, width: "100%" }}
           >
-            Добавить
+            {editingId ? "Сохранить" : "Добавить"}
           </button>
+          {editingId && (
+            <button
+              className="appointments-btn"
+              type="button"
+              onClick={cancelEdit}
+              style={{ height: 40, width: "100%" }}
+            >
+              Отмена
+            </button>
+          )}
         </div>
       </form>
       {loading ? (
@@ -406,18 +499,30 @@ function Appointments() {
                 ? fmt.format(new Date(it.createdAt))
                 : "";
               return (
-                <tr key={it._id}>
+                <tr key={it._id} className="appointments-table-row">
                   <td data-label="ФИО">{it.fullName}</td>
                   <td data-label="Телефон">{it.phone}</td>
                   <td data-label="Время приёма">{startsStr}</td>
                   <td data-label="Создано">{createdStr}</td>
                   <td data-label="">
-                    <button
-                      className="appointments-btn appointments-btn-danger"
-                      onClick={() => askDelete(it._id)}
-                    >
-                      Удалить
-                    </button>
+                    <div className="appointments-table-actions">
+                      <button
+                        className="appointments-table-btn appointments-table-btn-edit"
+                        onClick={() => startEdit(it)}
+                        title="Редактировать"
+                        aria-label="Редактировать"
+                      >
+                        <span className="appointments-table-btn-icon">✏</span>
+                      </button>
+                      <button
+                        className="appointments-table-btn appointments-table-btn-delete"
+                        onClick={() => askDelete(it._id)}
+                        title="Удалить"
+                        aria-label="Удалить"
+                      >
+                        ×
+                      </button>
+                    </div>
                   </td>
                 </tr>
               );

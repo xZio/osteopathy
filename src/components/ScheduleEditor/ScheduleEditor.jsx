@@ -24,6 +24,7 @@ function ScheduleEditor() {
   const [slotError, setSlotError] = useState(""); // Ошибка при добавлении слота
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Показ попапа успешного сохранения
   const [showScheduleSuccessPopup, setShowScheduleSuccessPopup] = useState(false); // Показ попапа успешного сохранения расписания
+  const [showOverrides, setShowOverrides] = useState(false); // Показ исключений
   
   const MAX_VISIBLE_SLOTS = 6; // Максимум слотов на странице
   
@@ -563,8 +564,28 @@ function ScheduleEditor() {
         {/* Компактное отображение исключений */}
         {overrides.length > 0 && (
           <div className="overrides-compact">
-            <div className="overrides-compact-label">Исключения:</div>
-            <div className="overrides-compact-list">
+            <button
+              className="overrides-compact-header"
+              onClick={() => setShowOverrides(!showOverrides)}
+              type="button"
+              aria-expanded={showOverrides}
+            >
+              <span className="overrides-compact-label">Исключения:</span>
+              <span className="overrides-compact-count">({overrides.length})</span>
+              <svg
+                className={`overrides-compact-arrow ${showOverrides ? "open" : ""}`}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            {showOverrides && (
+              <div className="overrides-compact-list">
               {overrides
                 .sort((a, b) => a.date.localeCompare(b.date))
                 .map((override) => {
@@ -607,7 +628,8 @@ function ScheduleEditor() {
                     </div>
                   );
                 })}
-            </div>
+              </div>
+            )}
           </div>
         )}
         

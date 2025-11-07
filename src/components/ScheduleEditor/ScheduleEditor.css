@@ -212,11 +212,6 @@
   font-weight: 600;
 }
 
-.weekday-btn.active:hover {
-  background: #1a6b6b;
-  border-color: #1a6b6b;
-}
-
 /* Компактная форма на одной строке */
 .config-field-compact {
   display: grid;
@@ -851,19 +846,52 @@
 /* Компактные исключения */
 .overrides-compact {
   margin-bottom: 20px;
-  padding: 12px;
   background: rgba(49, 186, 190, 0.05);
   border: 1px solid rgba(49, 186, 190, 0.2);
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.overrides-compact-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.overrides-compact-header:hover {
+  background: rgba(49, 186, 190, 0.1);
 }
 
 .overrides-compact-label {
   font-size: 13px;
   font-weight: 600;
   color: var(--muted);
-  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.overrides-compact-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.overrides-compact-arrow {
+  margin-left: auto;
+  color: var(--muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.overrides-compact-arrow.open {
+  transform: rotate(180deg);
 }
 
 .overrides-compact-list {
@@ -871,6 +899,8 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  padding: 0 12px 12px 12px;
+  margin-top: 10px;
 }
 
 .override-compact-item {
@@ -882,7 +912,7 @@
   padding-top: 11px;
   padding-right: 17px;
   background: rgba(49, 186, 190, 0.1);
-  border: 1px solid rgba(49, 186, 190, 0.3);
+  border: 1px solid rgba(5, 53, 54, 0.3);
   border-radius: 6px;
   font-size: 13px;
 }
@@ -893,12 +923,14 @@
   white-space: nowrap;
   font-size: 12px;
   text-transform: uppercase;
+  width: 20px;
 }
 
 .override-compact-date {
   font-weight: 600;
   color: var(--primary);
   white-space: nowrap;
+  width: 30px;
 }
 
 .override-compact-slots {
@@ -1003,6 +1035,10 @@
     font-size: 11px;
   }
 
+  .schedule-config-form {
+    justify-content: center;
+  }
+
   .config-field-compact {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -1025,7 +1061,6 @@
   .compact-slot-inputs .schedule-input,
   .compact-duration-input {
     flex: 1 1 auto;
-    min-width: 100px;
   }
 
   .compact-slot-tag {
@@ -1059,5 +1094,11 @@
 
   .override-compact-item {
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 407px) {
+  .weekday-buttons {
+    gap: 3px;
   }
 }
