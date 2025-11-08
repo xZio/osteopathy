@@ -13,7 +13,7 @@ function ScheduleEditor() {
   const [overrides, setOverrides] = useState([]);
   const [selectedWeekday, setSelectedWeekday] = useState(1); // Понедельник по умолчанию
   const [slotOffsets, setSlotOffsets] = useState(new Map()); // Смещение для каждого дня (индекс начала показа)
-  
+
   // Форма для нового слота
   const [newSlotStart, setNewSlotStart] = useState("10:00");
   const [newSlotEnd, setNewSlotEnd] = useState("18:00");
@@ -23,13 +23,22 @@ function ScheduleEditor() {
   const overrideDateRef = useRef(null); // Ref для AirDatepicker
   const [slotError, setSlotError] = useState(""); // Ошибка при добавлении слота
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // Показ попапа успешного сохранения
-  const [showScheduleSuccessPopup, setShowScheduleSuccessPopup] = useState(false); // Показ попапа успешного сохранения расписания
+  const [showScheduleSuccessPopup, setShowScheduleSuccessPopup] =
+    useState(false); // Показ попапа успешного сохранения расписания
   const [showOverrides, setShowOverrides] = useState(false); // Показ исключений
-  
+
   const MAX_VISIBLE_SLOTS = 6; // Максимум слотов на странице
-  
+
   const labels = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-  const fullLabels = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+  const fullLabels = [
+    "Воскресенье",
+    "Понедельник",
+    "Вторник",
+    "Среда",
+    "Четверг",
+    "Пятница",
+    "Суббота",
+  ];
 
   useEffect(() => {
     (async () => {
@@ -91,7 +100,7 @@ function ScheduleEditor() {
     setSlotError("");
     const startMinute = hhmmToMinutes(newSlotStart);
     const endMinute = hhmmToMinutes(newSlotEnd);
-    
+
     if (startMinute >= endMinute) {
       setSlotError("Время начала должно быть раньше времени окончания");
       return;
@@ -109,9 +118,14 @@ function ScheduleEditor() {
 
       // Проверка пересечений с существующими слотами для этой даты
       for (const existingSlot of existingSlots) {
-        if (startMinute < existingSlot.endMinute && endMinute > existingSlot.startMinute) {
+        if (
+          startMinute < existingSlot.endMinute &&
+          endMinute > existingSlot.startMinute
+        ) {
           setSlotError(
-            `Временной диапазон пересекается с существующим слотом: ${minutesToHHMM(existingSlot.startMinute)} - ${minutesToHHMM(existingSlot.endMinute)}`
+            `Временной диапазон пересекается с существующим слотом: ${minutesToHHMM(
+              existingSlot.startMinute
+            )} - ${minutesToHHMM(existingSlot.endMinute)}`
           );
           return;
         }
@@ -120,23 +134,26 @@ function ScheduleEditor() {
       // Создаем слоты
       const generatedSlots = [];
       let currentStart = startMinute;
-      
+
       while (currentStart + newSlotDuration <= endMinute) {
         const slotStart = currentStart;
         const slotEnd = currentStart + newSlotDuration;
-        
+
         const hasOverlap = existingSlots.some(
           (existingSlot) =>
-            slotStart < existingSlot.endMinute && slotEnd > existingSlot.startMinute
+            slotStart < existingSlot.endMinute &&
+            slotEnd > existingSlot.startMinute
         );
-        
+
         if (hasOverlap) {
           setSlotError(
-            `Создаваемый слот ${minutesToHHMM(slotStart)} - ${minutesToHHMM(slotEnd)} пересекается с существующим слотом.`
+            `Создаваемый слот ${minutesToHHMM(slotStart)} - ${minutesToHHMM(
+              slotEnd
+            )} пересекается с существующим слотом.`
           );
           return;
         }
-        
+
         generatedSlots.push({
           startMinute: slotStart,
           endMinute: slotEnd,
@@ -146,16 +163,22 @@ function ScheduleEditor() {
       }
 
       if (generatedSlots.length === 0) {
-        setSlotError("Не удалось создать слоты. Проверьте диапазон и длительность.");
+        setSlotError(
+          "Не удалось создать слоты. Проверьте диапазон и длительность."
+        );
         return;
       }
 
-      const newSlots = [...existingSlots, ...generatedSlots].sort((a, b) => a.startMinute - b.startMinute);
-      
+      const newSlots = [...existingSlots, ...generatedSlots].sort(
+        (a, b) => a.startMinute - b.startMinute
+      );
+
       if (existingOverride) {
-        setOverrides(overrides.map((o) => 
-          o.date === overrideDate ? { ...o, slots: newSlots } : o
-        ));
+        setOverrides(
+          overrides.map((o) =>
+            o.date === overrideDate ? { ...o, slots: newSlots } : o
+          )
+        );
       } else {
         setOverrides([...overrides, { date: overrideDate, slots: newSlots }]);
       }
@@ -171,13 +194,18 @@ function ScheduleEditor() {
     // Проверяем пересечение с существующими слотами
     const selectedDay = days.find((d) => d.weekday === selectedWeekday);
     const existingSlots = selectedDay?.slots || [];
-    
+
     for (const existingSlot of existingSlots) {
       // Проверяем пересечение: новый диапазон пересекается с существующим,
       // если начало нового < конца существующего И конец нового > начала существующего
-      if (startMinute < existingSlot.endMinute && endMinute > existingSlot.startMinute) {
+      if (
+        startMinute < existingSlot.endMinute &&
+        endMinute > existingSlot.startMinute
+      ) {
         setSlotError(
-          `Временной диапазон пересекается с существующим слотом: ${minutesToHHMM(existingSlot.startMinute)} - ${minutesToHHMM(existingSlot.endMinute)}`
+          `Временной диапазон пересекается с существующим слотом: ${minutesToHHMM(
+            existingSlot.startMinute
+          )} - ${minutesToHHMM(existingSlot.endMinute)}`
         );
         return;
       }
@@ -186,24 +214,27 @@ function ScheduleEditor() {
     // Создаем слоты с заданным шагом длительности
     const generatedSlots = [];
     let currentStart = startMinute;
-    
+
     while (currentStart + newSlotDuration <= endMinute) {
       const slotStart = currentStart;
       const slotEnd = currentStart + newSlotDuration;
-      
+
       // Проверяем пересечение каждого создаваемого слота с существующими
       const hasOverlap = existingSlots.some(
         (existingSlot) =>
-          slotStart < existingSlot.endMinute && slotEnd > existingSlot.startMinute
+          slotStart < existingSlot.endMinute &&
+          slotEnd > existingSlot.startMinute
       );
-      
+
       if (hasOverlap) {
         setSlotError(
-          `Создаваемый слот ${minutesToHHMM(slotStart)} - ${minutesToHHMM(slotEnd)} пересекается с существующим слотом.`
+          `Создаваемый слот ${minutesToHHMM(slotStart)} - ${minutesToHHMM(
+            slotEnd
+          )} пересекается с существующим слотом.`
         );
         return;
       }
-      
+
       generatedSlots.push({
         startMinute: slotStart,
         endMinute: slotEnd,
@@ -213,7 +244,9 @@ function ScheduleEditor() {
     }
 
     if (generatedSlots.length === 0) {
-      setSlotError("Не удалось создать слоты. Проверьте диапазон и длительность.");
+      setSlotError(
+        "Не удалось создать слоты. Проверьте диапазон и длительность."
+      );
       return;
     }
 
@@ -222,12 +255,14 @@ function ScheduleEditor() {
         d.weekday === selectedWeekday
           ? {
               ...d,
-              slots: [...d.slots, ...generatedSlots].sort((a, b) => a.startMinute - b.startMinute),
+              slots: [...d.slots, ...generatedSlots].sort(
+                (a, b) => a.startMinute - b.startMinute
+              ),
             }
           : d
       )
     );
-    
+
     // Сброс формы
     setNewSlotStart("10:00");
     setNewSlotEnd("18:00");
@@ -251,9 +286,11 @@ function ScheduleEditor() {
     if (newSlots.length === 0) {
       setOverrides(overrides.filter((o) => o.date !== overrideDate));
     } else {
-      setOverrides(overrides.map((o) =>
-        o.date === overrideDate ? { ...o, slots: newSlots } : o
-      ));
+      setOverrides(
+        overrides.map((o) =>
+          o.date === overrideDate ? { ...o, slots: newSlots } : o
+        )
+      );
     }
   }
 
@@ -261,14 +298,14 @@ function ScheduleEditor() {
     setOverrides(overrides.filter((o) => o.date !== overrideDate));
   }
 
-  async function save() {
+ /*  async function save() {
     try {
       await apiSaveSchedule({ days, overrides });
       setShowSuccessPopup(true);
     } catch {
       alert("Ошибка сохранения");
     }
-  }
+  } */
 
   async function saveSchedule() {
     try {
@@ -291,7 +328,7 @@ function ScheduleEditor() {
       {/* Форма настройки */}
       <div className="schedule-config-card">
         <h2 className="schedule-config-title">Настройка расписания</h2>
-        
+
         <div className="schedule-config-form">
           {/* Кнопки выбора дня недели */}
           <div className="weekday-buttons">
@@ -299,7 +336,9 @@ function ScheduleEditor() {
               <button
                 key={wd}
                 type="button"
-                className={`weekday-btn ${selectedWeekday === wd ? "active" : ""}`}
+                className={`weekday-btn ${
+                  selectedWeekday === wd ? "active" : ""
+                }`}
                 onClick={() => setSelectedWeekday(wd)}
               >
                 {labels[wd]}
@@ -309,7 +348,6 @@ function ScheduleEditor() {
 
           {/* Компактная форма добавления слота и список слотов на одной строке */}
           <div className="config-field-compact">
-            
             <div className="compact-add-form">
               <div className="compact-form-header">
                 <label className="config-label">Добавить слот</label>
@@ -317,7 +355,9 @@ function ScheduleEditor() {
                   <span className="compact-toggle-text">Исключение</span>
                   <button
                     type="button"
-                    className={`compact-toggle-switch ${isOverrideMode ? "active" : ""}`}
+                    className={`compact-toggle-switch ${
+                      isOverrideMode ? "active" : ""
+                    }`}
                     onClick={() => {
                       setIsOverrideMode(!isOverrideMode);
                       if (isOverrideMode) {
@@ -350,7 +390,12 @@ function ScheduleEditor() {
               <div className="compact-slot-inputs-wrapper">
                 <div className="compact-slot-inputs">
                   <div className="compact-input-group">
-                    <label className="config-small-label" htmlFor="newSlotStart">С</label>
+                    <label
+                      className="config-small-label"
+                      htmlFor="newSlotStart"
+                    >
+                      С
+                    </label>
                     <input
                       id="newSlotStart"
                       className="schedule-input schedule-time-input"
@@ -365,7 +410,9 @@ function ScheduleEditor() {
                   </div>
                   <span className="compact-separator">-</span>
                   <div className="compact-input-group">
-                    <label className="config-small-label" htmlFor="newSlotEnd">До</label>
+                    <label className="config-small-label" htmlFor="newSlotEnd">
+                      До
+                    </label>
                     <input
                       id="newSlotEnd"
                       className="schedule-input schedule-time-input"
@@ -379,7 +426,12 @@ function ScheduleEditor() {
                     />
                   </div>
                   <div className="compact-input-group compact-duration-input">
-                    <label className="config-small-label" htmlFor="newSlotDuration">Мин</label>
+                    <label
+                      className="config-small-label"
+                      htmlFor="newSlotDuration"
+                    >
+                      Мин
+                    </label>
                     <div className="schedule-number-input-field">
                       <input
                         id="newSlotDuration"
@@ -454,42 +506,72 @@ function ScheduleEditor() {
                 )}
               </div>
             </div>
-            
+
             <div className="compact-slots-list">
               {isOverrideMode ? (
                 <>
                   <label className="config-label">
-                    Слоты {overrideDate ? `(${overrides.find((o) => o.date === overrideDate)?.slots.length || 0})` : "(0)"}
+                    Слоты{" "}
+                    {overrideDate
+                      ? `(${
+                          overrides.find((o) => o.date === overrideDate)?.slots
+                            .length || 0
+                        })`
+                      : "(0)"}
                   </label>
-                  {overrideDate && overrides.find((o) => o.date === overrideDate)?.slots ? (
+                  {overrideDate &&
+                  overrides.find((o) => o.date === overrideDate)?.slots ? (
                     <div className="compact-slots-wrapper">
                       {(() => {
                         const dateObj = new Date(overrideDate);
                         const weekday = dateObj.getDay();
-                        return <span className="compact-slots-weekday">{labels[weekday]}</span>;
+                        return (
+                          <span className="compact-slots-weekday">
+                            {labels[weekday]}
+                          </span>
+                        );
                       })()}
                       <div className="compact-slots">
                         {overrides
                           .find((o) => o.date === overrideDate)
                           ?.slots.map((slot, idx) => (
-                            <div key={`${overrideDate}-${slot.startMinute}-${slot.endMinute}-${idx}`} className="compact-slot-tag">
+                            <div
+                              key={`${overrideDate}-${slot.startMinute}-${slot.endMinute}-${idx}`}
+                              className="compact-slot-tag"
+                            >
                               <div className="compact-slot-info">
-                                <span className="compact-slot-time">{minutesToHHMM(slot.startMinute)}</span>
-                                <span className="compact-slot-duration">{slot.durationMinutes} мин</span>
+                                <span className="compact-slot-time">
+                                  {minutesToHHMM(slot.startMinute)}
+                                </span>
+                                <span className="compact-slot-duration">
+                                  {slot.durationMinutes} мин
+                                </span>
                               </div>
                               <button
                                 type="button"
                                 className="compact-slot-remove"
                                 onClick={() => {
-                                  const override = overrides.find((o) => o.date === overrideDate);
+                                  const override = overrides.find(
+                                    (o) => o.date === overrideDate
+                                  );
                                   if (!override) return;
-                                  const newSlots = override.slots.filter((_, i) => i !== idx);
+                                  const newSlots = override.slots.filter(
+                                    (_, i) => i !== idx
+                                  );
                                   if (newSlots.length === 0) {
-                                    setOverrides(overrides.filter((o) => o.date !== overrideDate));
+                                    setOverrides(
+                                      overrides.filter(
+                                        (o) => o.date !== overrideDate
+                                      )
+                                    );
                                   } else {
-                                    setOverrides(overrides.map((o) =>
-                                      o.date === overrideDate ? { ...o, slots: newSlots } : o
-                                    ));
+                                    setOverrides(
+                                      overrides.map((o) =>
+                                        o.date === overrideDate
+                                          ? { ...o, slots: newSlots }
+                                          : o
+                                      )
+                                    );
                                   }
                                 }}
                                 aria-label="Удалить слот"
@@ -509,18 +591,29 @@ function ScheduleEditor() {
                 </>
               ) : (
                 <>
-                  <label className="config-label">Слоты ({selectedDay.slots.length})</label>
+                  <label className="config-label">
+                    Слоты ({selectedDay.slots.length})
+                  </label>
                   {selectedDay.slots.length === 0 ? (
                     <div className="schedule-empty-compact">Нет слотов</div>
                   ) : (
                     <div className="compact-slots-wrapper">
-                      <span className="compact-slots-weekday">{labels[selectedWeekday]}</span>
+                      <span className="compact-slots-weekday">
+                        {labels[selectedWeekday]}
+                      </span>
                       <div className="compact-slots">
                         {selectedDay.slots.map((slot, idx) => (
-                          <div key={`${selectedWeekday}-${slot.startMinute}-${slot.endMinute}-${idx}`} className="compact-slot-tag">
+                          <div
+                            key={`${selectedWeekday}-${slot.startMinute}-${slot.endMinute}-${idx}`}
+                            className="compact-slot-tag"
+                          >
                             <div className="compact-slot-info">
-                              <span className="compact-slot-time">{minutesToHHMM(slot.startMinute)}</span>
-                              <span className="compact-slot-duration">{slot.durationMinutes} мин</span>
+                              <span className="compact-slot-time">
+                                {minutesToHHMM(slot.startMinute)}
+                              </span>
+                              <span className="compact-slot-duration">
+                                {slot.durationMinutes} мин
+                              </span>
                             </div>
                             <button
                               type="button"
@@ -541,11 +634,11 @@ function ScheduleEditor() {
             </div>
           </div>
 
-          <div className="schedule-save-section">
+          {/*    <div className="schedule-save-section">
             <button className="schedule-btn  schedule-save-btn" onClick={save}>
               Сохранить все изменения
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -553,14 +646,14 @@ function ScheduleEditor() {
       <div className="schedule-display-section">
         <div className="schedule-display-header">
           <h2 className="schedule-display-title">Текущее расписание</h2>
-          <button 
-            className="schedule-btn  schedule-save-btn-inline" 
+          <button
+            className="schedule-btn  schedule-save-btn-inline"
             onClick={saveSchedule}
           >
             Сохранить расписание
           </button>
         </div>
-        
+
         {/* Компактное отображение исключений */}
         {overrides.length > 0 && (
           <div className="overrides-compact">
@@ -571,9 +664,13 @@ function ScheduleEditor() {
               aria-expanded={showOverrides}
             >
               <span className="overrides-compact-label">Исключения:</span>
-              <span className="overrides-compact-count">({overrides.length})</span>
+              <span className="overrides-compact-count">
+                ({overrides.length})
+              </span>
               <svg
-                className={`overrides-compact-arrow ${showOverrides ? "open" : ""}`}
+                className={`overrides-compact-arrow ${
+                  showOverrides ? "open" : ""
+                }`}
                 width="16"
                 height="16"
                 viewBox="0 0 24 24"
@@ -586,53 +683,66 @@ function ScheduleEditor() {
             </button>
             {showOverrides && (
               <div className="overrides-compact-list">
-              {overrides
-                .sort((a, b) => a.date.localeCompare(b.date))
-                .map((override) => {
-                  const dateObj = new Date(override.date);
-                  const weekday = dateObj.getDay();
-                  const weekdayLabel = labels[weekday];
-                  const formattedDate = dateObj.toLocaleDateString("ru-RU", {
-                    day: "2-digit",
-                    month: "2-digit",
-                  });
-                  return (
-                    <div key={override.date} className="override-compact-item">
-                      <span className="override-compact-weekday">{weekdayLabel}</span>
-                      <span className="override-compact-date">{formattedDate}</span>
-                      <div className="override-compact-slots">
-                        {override.slots.map((slot, idx) => (
-                          <span key={`${override.date}-${slot.startMinute}-${slot.endMinute}-${idx}`} className="override-compact-slot">
-                            {minutesToHHMM(slot.startMinute)}-{minutesToHHMM(slot.endMinute)}
-                            <button
-                              type="button"
-                              className="override-compact-slot-remove"
-                              onClick={() => removeOverrideSlot(override.date, idx)}
-                              aria-label="Удалить слот"
-                              title="Удалить слот"
-                            >
-                              ×
-                            </button>
-                          </span>
-                        ))}
-                      </div>
-                      <button
-                        type="button"
-                        className="override-compact-remove"
-                        onClick={() => removeOverride(override.date)}
-                        aria-label="Удалить исключение"
-                        title="Удалить исключение"
+                {overrides
+                  .sort((a, b) => a.date.localeCompare(b.date))
+                  .map((override) => {
+                    const dateObj = new Date(override.date);
+                    const weekday = dateObj.getDay();
+                    const weekdayLabel = labels[weekday];
+                    const formattedDate = dateObj.toLocaleDateString("ru-RU", {
+                      day: "2-digit",
+                      month: "2-digit",
+                    });
+                    return (
+                      <div
+                        key={override.date}
+                        className="override-compact-item"
                       >
-                        ×
-                      </button>
-                    </div>
-                  );
-                })}
+                        <span className="override-compact-weekday">
+                          {weekdayLabel}
+                        </span>
+                        <span className="override-compact-date">
+                          {formattedDate}
+                        </span>
+                        <div className="override-compact-slots">
+                          {override.slots.map((slot, idx) => (
+                            <span
+                              key={`${override.date}-${slot.startMinute}-${slot.endMinute}-${idx}`}
+                              className="override-compact-slot"
+                            >
+                              {minutesToHHMM(slot.startMinute)}-
+                              {minutesToHHMM(slot.endMinute)}
+                              <button
+                                type="button"
+                                className="override-compact-slot-remove"
+                                onClick={() =>
+                                  removeOverrideSlot(override.date, idx)
+                                }
+                                aria-label="Удалить слот"
+                                title="Удалить слот"
+                              >
+                                ×
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          className="override-compact-remove"
+                          onClick={() => removeOverride(override.date)}
+                          aria-label="Удалить исключение"
+                          title="Удалить исключение"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    );
+                  })}
               </div>
             )}
           </div>
         )}
-        
+
         <div className="schedule-week-view">
           {[1, 2, 3, 4, 5, 6, 0].map((weekday) => {
             const day = days.find((d) => d.weekday === weekday) || {
@@ -656,14 +766,21 @@ function ScheduleEditor() {
                           (slotOffsets.get(weekday) || 0) + MAX_VISIBLE_SLOTS
                         )
                         .map((slot, idx) => {
-                          const actualIdx = (slotOffsets.get(weekday) || 0) + idx;
+                          const actualIdx =
+                            (slotOffsets.get(weekday) || 0) + idx;
                           return (
-                            <div key={`${weekday}-${slot.startMinute}-${slot.endMinute}-${actualIdx}`} className="week-day-slot week-day-slot-with-remove">
+                            <div
+                              key={`${weekday}-${slot.startMinute}-${slot.endMinute}-${actualIdx}`}
+                              className="week-day-slot week-day-slot-with-remove"
+                            >
                               <div className="week-slot-content">
                                 <div className="week-slot-time">
-                                  {minutesToHHMM(slot.startMinute)} - {minutesToHHMM(slot.endMinute)}
+                                  {minutesToHHMM(slot.startMinute)} -{" "}
+                                  {minutesToHHMM(slot.endMinute)}
                                 </div>
-                                <div className="week-slot-duration">{slot.durationMinutes} мин</div>
+                                <div className="week-slot-duration">
+                                  {slot.durationMinutes} мин
+                                </div>
                               </div>
                               <button
                                 type="button"
@@ -684,31 +801,58 @@ function ScheduleEditor() {
                             className="week-day-nav-btn"
                             disabled={(slotOffsets.get(weekday) || 0) === 0}
                             onClick={() => {
-                              const currentOffset = slotOffsets.get(weekday) || 0;
-                              const newOffset = Math.max(0, currentOffset - MAX_VISIBLE_SLOTS);
-                              setSlotOffsets(new Map(slotOffsets).set(weekday, newOffset));
+                              const currentOffset =
+                                slotOffsets.get(weekday) || 0;
+                              const newOffset = Math.max(
+                                0,
+                                currentOffset - MAX_VISIBLE_SLOTS
+                              );
+                              setSlotOffsets(
+                                new Map(slotOffsets).set(weekday, newOffset)
+                              );
                             }}
                             aria-label="Предыдущие слоты"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
                               <polyline points="18 15 12 9 6 15"></polyline>
                             </svg>
                           </button>
                           <button
                             type="button"
                             className="week-day-nav-btn"
-                            disabled={(slotOffsets.get(weekday) || 0) + MAX_VISIBLE_SLOTS >= day.slots.length}
+                            disabled={
+                              (slotOffsets.get(weekday) || 0) +
+                                MAX_VISIBLE_SLOTS >=
+                              day.slots.length
+                            }
                             onClick={() => {
-                              const currentOffset = slotOffsets.get(weekday) || 0;
+                              const currentOffset =
+                                slotOffsets.get(weekday) || 0;
                               const newOffset = Math.min(
                                 day.slots.length - MAX_VISIBLE_SLOTS,
                                 currentOffset + MAX_VISIBLE_SLOTS
                               );
-                              setSlotOffsets(new Map(slotOffsets).set(weekday, newOffset));
+                              setSlotOffsets(
+                                new Map(slotOffsets).set(weekday, newOffset)
+                              );
                             }}
                             aria-label="Следующие слоты"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
                               <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                           </button>

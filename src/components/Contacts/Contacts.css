@@ -387,3 +387,70 @@ select.contact-input {
     transform: translateY(0);
   }
 }
+
+/* Time slots container */
+.time-slots-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  width: 90%;
+  margin: 5px 0 20px 0;
+  padding: 0;
+}
+
+.time-slot-button {
+  padding: 12px 16px;
+  border: 2px solid #31babe;
+  border-radius: 8px;
+  background-color: white;
+  color: #4f5152;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(49, 186, 190, 0.2);
+}
+
+.time-slot-button:hover {
+  background-color: #31babe;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(49, 186, 190, 0.4);
+}
+
+.time-slot-selected {
+  background-color: #31babe;
+  color: white;
+  border-color: #e7bd25;
+  box-shadow: 0 0 15px rgba(231, 189, 37, 0.5);
+}
+
+.time-slot-selected:hover {
+  background-color: #2a9ca0;
+  border-color: #e7bd25;
+}
+
+.time-slots-empty {
+  width: 90%;
+  padding: 15px;
+  margin: 5px 0 20px 0;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Mobile responsive for time slots */
+@media (max-width: 768px) {
+  .time-slots-container {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+  }
+  
+  .time-slot-button {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

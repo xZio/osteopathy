@@ -62,7 +62,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
-  align-items: start;
+  align-items: center;
   margin-bottom: 16px;
 }
 
@@ -225,6 +225,59 @@
   color: #ffb0b0;
 }
 
+/* Time slots container for admin */
+.appointments-time-slots-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.appointments-time-slot-button {
+  padding: 10px 14px;
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+  background-color: #0b2330;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(49, 186, 190, 0.2);
+}
+
+.appointments-time-slot-button:hover {
+  background-color: var(--primary);
+  color: #0a1a20;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(49, 186, 190, 0.4);
+}
+
+.appointments-time-slot-selected {
+  background-color: var(--primary);
+  color: #0a1a20;
+  border-color: #e7bd25;
+  box-shadow: 0 0 12px rgba(231, 189, 37, 0.5);
+}
+
+.appointments-time-slot-selected:hover {
+  background-color: #2a9ca0;
+  border-color: #e7bd25;
+}
+
+.appointments-time-slots-empty {
+  padding: 12px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  background-color: rgba(11, 35, 48, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(49, 186, 190, 0.2);
+}
+
 /* Muted text */
 .appointments-muted {
   color: var(--muted);
@@ -325,6 +378,12 @@
   z-index: 2000;
 }
 
+/* Увеличиваем z-index календаря, чтобы он был поверх попапа */
+.appointments-modal-backdrop ~ .air-datepicker,
+.appointments-modal .air-datepicker {
+  z-index: 2100;
+}
+
 .appointments-modal {
   width: min(480px, 92vw);
   background: var(--bg-soft);
@@ -332,6 +391,12 @@
   border-radius: 10px;
   padding: 16px;
   color: var(--text);
+}
+
+.appointments-modal-large {
+  width: min(800px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .appointments-modal-title {
@@ -403,15 +468,14 @@
     gap: 8px;
     border: none;
     padding: 6px 4px;
-    height: auto; }
+    height: auto;
+  }
 
   .appointments-table td::before {
     content: attr(data-label);
     color: var(--muted);
     font-size: 12px;
   }
-
-
 
   .appointments-table-actions {
     position: absolute;

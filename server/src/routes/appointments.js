@@ -20,6 +20,24 @@ appointmentsRouter.post('/', requireAuth, async (req, res) => {
   res.status(201).json(appt);
 });
 
+// Update appointment (admin)
+appointmentsRouter.put('/:id', requireAuth, async (req, res) => {
+  const { id } = req.params;
+  const { fullName, phone, note, startsAt, endsAt } = req.body || {};
+  if (!fullName || !phone || !startsAt || !endsAt) {
+    return res.status(400).json({ error: 'fullName, phone, startsAt, endsAt are required' });
+  }
+  const appt = await Appointment.findByIdAndUpdate(
+    id,
+    { fullName, phone, note, startsAt, endsAt },
+    { new: true, runValidators: true }
+  );
+  if (!appt) {
+    return res.status(404).json({ error: 'Appointment not found' });
+  }
+  res.json(appt);
+});
+
 // Delete appointment (admin)
 appointmentsRouter.delete('/:id', requireAuth, async (req, res) => {
   const { id } = req.params;
