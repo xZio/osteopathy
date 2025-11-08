@@ -21,6 +21,7 @@ function Contacts() {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [availableDates, setAvailableDates] = useState(new Set()); // Даты с доступными слотами
   const [datepickerInstance, setDatepickerInstance] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const {
     values,
@@ -327,12 +328,19 @@ function Contacts() {
   async function handleSubmit(e) {
     e.preventDefault();
     
+    // Защита от множественных нажатий
+    if (isSubmitting) {
+      return;
+    }
+    
     if (validateForm()) {
+      setIsSubmitting(true);
       try {
         const isoDate = toISODate(values.date);
         const chosen = availableTimes.find((t) => t.label === values.time);
         if (!isoDate || !chosen) {
           alert("Выберите доступные дату и время");
+          setIsSubmitting(false);
           return;
         }
 
@@ -403,6 +411,8 @@ function Contacts() {
         
         setErrorMessage(errorMsg);
         setShowErrorPopup(true);
+      } finally {
+        setIsSubmitting(false);
       }
     }
   }
@@ -530,8 +540,8 @@ function Contacts() {
             </>
           )}
 
-                   <button type="submit" className={`contact-form-button ${!isValid ? 'disabled' : ''}`} disabled={!isValid} onClick={handleSubmit}>
-                     Отправить
+                   <button type="submit" className={`contact-form-button ${!isValid || isSubmitting ? 'disabled' : ''}`} disabled={!isValid || isSubmitting} onClick={handleSubmit}>
+                     {isSubmitting ? 'Отправка...' : 'Отправить'}
                    </button>
         </form>
       </div>
